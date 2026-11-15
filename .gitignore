@@ -1,0 +1,13 @@
+# Thư mục chứa model AI và môi trường nặng (KHÔNG BAO GIỜ PUSH LÊN GIT)
+Fooocus/
+gemini_browser_profile/
+gemini-watermark-remover/
+*.7z
+*.zip
+*.tar.gz
+
+# Thư mục file xuất tạm thời và cache
+caveman-story/output/
+caveman-story/images/test_*
+__pycache__/
+*.pyc

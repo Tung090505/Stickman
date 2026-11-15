@@ -1,0 +1,849 @@
+{
+  "version": 1,
+  "style": "B1",
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "voice": {
+    "path": "chuong1.wav",
+    "lead": 0,
+    "tail": 0,
+    "contains_sfx": true
+  },
+  "captions": [
+    {
+      "start": 0.0,
+      "end": 1.5,
+      "text": "Hãy thử tưởng tượng bạn đang sống..."
+    },
+    {
+      "start": 1.5,
+      "end": 3.0,
+      "text": "...trên Trái Đất một triệu năm trước."
+    },
+    {
+      "start": 3.0,
+      "end": 5.0,
+      "text": "Khi mặt trời lặn xuống,"
+    },
+    {
+      "start": 5.0,
+      "end": 6.8,
+      "text": "bóng tối đen đặc bao trùm."
+    },
+    {
+      "start": 6.8,
+      "end": 9.0,
+      "text": "Không điện thoại. Không ánh đèn."
+    },
+    {
+      "start": 9.0,
+      "end": 11.5,
+      "text": "Và không hề có một đốm lửa."
+    },
+    {
+      "start": 11.5,
+      "end": 14.0,
+      "text": "Màn đêm là cơn ác mộng sinh tử."
+    },
+    {
+      "start": 14.0,
+      "end": 17.0,
+      "text": "Trong bóng đêm lạnh lẽo,"
+    },
+    {
+      "start": 17.0,
+      "end": 20.0,
+      "text": "thính giác căng thẳng đến nghẹt thở."
+    },
+    {
+      "start": 20.0,
+      "end": 23.2,
+      "text": "Xung quanh là hổ răng kiếm,"
+    },
+    {
+      "start": 23.2,
+      "end": 26.4,
+      "text": "và những đôi mắt nhìn xuyên bóng tối."
+    },
+    {
+      "start": 26.4,
+      "end": 28.5,
+      "text": "Loài người khi ấy rất yếu ớt,"
+    },
+    {
+      "start": 28.5,
+      "end": 30.3,
+      "text": "chỉ là con mồi trong đêm."
+    },
+    {
+      "start": 30.3,
+      "end": 33.1,
+      "text": "Không có lửa: mùa đông là án tử."
+    },
+    {
+      "start": 33.1,
+      "end": 36.5,
+      "text": "Tổ tiên ôm nhau tìm hơi ấm,"
+    },
+    {
+      "start": 36.5,
+      "end": 39.9,
+      "text": "nhiều người ngủ thiếp đi vĩnh viễn."
+    },
+    {
+      "start": 39.9,
+      "end": 43.5,
+      "text": "Thức ăn thì sao? Không xào nấu."
+    },
+    {
+      "start": 43.5,
+      "end": 48.0,
+      "text": "Từ củ dại đến thịt thú đều nhai sống."
+    },
+    {
+      "start": 48.0,
+      "end": 52.0,
+      "text": "Nhai từng thớ cơ dai suốt hàng giờ,"
+    },
+    {
+      "start": 52.0,
+      "end": 56.4,
+      "text": "dạ dày gồng mình chống vi khuẩn."
+    },
+    {
+      "start": 56.4,
+      "end": 60.5,
+      "text": "Bị giam cầm giữa lạnh, tối và thú dữ."
+    },
+    {
+      "start": 60.5,
+      "end": 64.2,
+      "text": "Nhưng trong não là một vũ khí phi thường."
+    },
+    {
+      "start": 64.2,
+      "end": 67.2,
+      "text": "Sự tò mò và khát vọng sống sót."
+    },
+    {
+      "start": 67.2,
+      "end": 70.0,
+      "text": "Họ cần một phép màu lật ngược thế cờ."
+    },
+    {
+      "start": 70.0,
+      "end": 72.4,
+      "text": "Một tiếng sét xé toạc không gian!"
+    },
+    {
+      "start": 72.4,
+      "end": 74.75,
+      "text": "Mở ra bước ngoặt vĩ đại nhất!"
+    }
+  ],
+  "shots": [
+    {
+      "start": 0,
+      "end": 3.0,
+      "layers": [
+        {
+          "type": "text",
+          "text": "1 TRIỆU NĂM TRƯỚC.",
+          "x": 95,
+          "y": 110,
+          "size": 52,
+          "bold": true
+        },
+        {
+          "type": "text",
+          "text": "TRÁI ĐẤT NGUYÊN THỦY.",
+          "x": 95,
+          "y": 185,
+          "size": 48,
+          "bold": true,
+          "color": "#E05A47"
+        },
+        {
+          "id": "caveman_hero_0",
+          "type": "image",
+          "path": "prehistoric_caveman.png",
+          "x": 680,
+          "y": 60,
+          "w": 460,
+          "motion": {
+            "role": "actor",
+            "reason": "Prehistoric caveman breathes and sways"
+          },
+          "keys": [
+            {
+              "t": 0,
+              "angle": -0.04
+            },
+            {
+              "t": 1.5,
+              "angle": 0.04
+            },
+            {
+              "t": 3.0,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 3.0,
+      "end": 6.8,
+      "layers": [
+        {
+          "type": "text",
+          "text": "BÓNG TỐI ĐEN ĐẶC.",
+          "x": 95,
+          "y": 110,
+          "size": 52,
+          "bold": true
+        },
+        {
+          "type": "text",
+          "text": "KHÔNG ĐÈN. KHÔNG ĐIỆN THOẠI.",
+          "x": 95,
+          "y": 185,
+          "size": 42,
+          "bold": true,
+          "color": "#4A5568"
+        },
+        {
+          "id": "caveman_hero_1",
+          "type": "image",
+          "path": "prehistoric_caveman.png",
+          "x": 660,
+          "y": 70,
+          "w": 460,
+          "motion": {
+            "role": "actor",
+            "reason": "Caveman looks around in terror"
+          },
+          "keys": [
+            {
+              "t": 0,
+              "angle": -0.05
+            },
+            {
+              "t": 1.9,
+              "angle": 0.05
+            },
+            {
+              "t": 3.8,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 6.8,
+      "end": 14.0,
+      "layers": [
+        {
+          "type": "text",
+          "text": "KHÔNG HỀ CÓ LỬA.",
+          "x": 95,
+          "y": 110,
+          "size": 54,
+          "bold": true,
+          "color": "#D9381E"
+        },
+        {
+          "type": "text",
+          "text": "CƠN ÁC MỘNG BẮT ĐẦU.",
+          "x": 95,
+          "y": 185,
+          "size": 46,
+          "bold": true
+        },
+        {
+          "type": "pose",
+          "pose": 2,
+          "x": 680,
+          "y": 25,
+          "w": 470
+        },
+        {
+          "id": "prop_camera_3",
+          "type": "image",
+          "path": "@b1/camera-handdrawn.png",
+          "x": 120,
+          "y": 310,
+          "w": 190,
+          "motion": {
+            "role": "prop",
+            "reason": "Focus on the primal nightmare"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.08
+            },
+            {
+              "t": 2.4,
+              "angle": 0.07
+            },
+            {
+              "t": 4.8,
+              "angle": -0.05
+            },
+            {
+              "t": 7.2,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 14.0,
+      "end": 20.0,
+      "layers": [
+        {
+          "type": "text",
+          "text": "THÍNH GIÁC CĂNG THẲNG.",
+          "x": 95,
+          "y": 110,
+          "size": 52,
+          "bold": true
+        },
+        {
+          "type": "text",
+          "text": "TIM ĐẬP THÌNH THỊCH.",
+          "x": 95,
+          "y": 185,
+          "size": 46,
+          "bold": true,
+          "color": "#D9381E"
+        },
+        {
+          "type": "pose",
+          "pose": 1,
+          "x": 720,
+          "y": 35,
+          "w": 445
+        },
+        {
+          "id": "prop_bulb_4",
+          "type": "image",
+          "path": "@b1/idea-bulb-crayon.png",
+          "x": 140,
+          "y": 290,
+          "w": 190,
+          "motion": {
+            "role": "prop",
+            "reason": "Sensory bulb vibrates with tension"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.06
+            },
+            {
+              "t": 2.0,
+              "angle": 0.08
+            },
+            {
+              "t": 4.0,
+              "angle": -0.06
+            },
+            {
+              "t": 6.0,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 20.0,
+      "end": 26.4,
+      "layers": [
+        {
+          "type": "text",
+          "text": "HỔ RĂNG KIẾM & LINH CẨU.",
+          "x": 95,
+          "y": 110,
+          "size": 48,
+          "bold": true,
+          "color": "#D9381E"
+        },
+        {
+          "type": "text",
+          "text": "NHỮNG ĐÔI MẮT ĐỎ RỰC.",
+          "x": 95,
+          "y": 185,
+          "size": 44,
+          "bold": true,
+          "color": "#2C3E50"
+        },
+        {
+          "type": "pose",
+          "pose": 0,
+          "x": 680,
+          "y": 15,
+          "w": 465
+        },
+        {
+          "id": "prop_clapper_5",
+          "type": "image",
+          "path": "@b1/clapper-crayon.png",
+          "x": 130,
+          "y": 300,
+          "w": 190,
+          "motion": {
+            "role": "prop",
+            "reason": "Predators lurking suspense clap"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.05
+            },
+            {
+              "t": 2.13,
+              "angle": 0.06
+            },
+            {
+              "t": 4.27,
+              "angle": -0.05
+            },
+            {
+              "t": 6.4,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 26.4,
+      "end": 30.3,
+      "layers": [
+        {
+          "type": "text",
+          "text": "CON NGƯỜI YẾU ỚT.",
+          "x": 95,
+          "y": 110,
+          "size": 52,
+          "bold": true
+        },
+        {
+          "type": "text",
+          "text": "CHỈ LÀ CON MỒI.",
+          "x": 95,
+          "y": 185,
+          "size": 48,
+          "bold": true,
+          "color": "#7F8C8D"
+        },
+        {
+          "type": "pose",
+          "pose": 2,
+          "x": 700,
+          "y": 25,
+          "w": 470
+        },
+        {
+          "id": "prop_script_6",
+          "type": "image",
+          "path": "@b1/script-page-crayon.png",
+          "x": 140,
+          "y": 300,
+          "w": 180,
+          "motion": {
+            "role": "prop",
+            "reason": "Human survival status page sways"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.06
+            },
+            {
+              "t": 1.95,
+              "angle": 0.05
+            },
+            {
+              "t": 3.9,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 30.3,
+      "end": 39.9,
+      "layers": [
+        {
+          "type": "text",
+          "text": "MÙA ĐÔNG = BẢN ÁN TỬ HÌNH.",
+          "x": 95,
+          "y": 110,
+          "size": 48,
+          "bold": true,
+          "color": "#2980B9"
+        },
+        {
+          "type": "text",
+          "text": "CÁI LẠNH THẤU XƯƠNG.",
+          "x": 95,
+          "y": 185,
+          "size": 44,
+          "bold": true,
+          "color": "#34495E"
+        },
+        {
+          "type": "pose",
+          "pose": 1,
+          "x": 720,
+          "y": 35,
+          "w": 445
+        },
+        {
+          "id": "prop_calendar_7",
+          "type": "image",
+          "path": "@b1/calendar-crayon.png",
+          "x": 130,
+          "y": 290,
+          "w": 190,
+          "motion": {
+            "role": "prop",
+            "reason": "Harsh winter calendar shivering"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.07
+            },
+            {
+              "t": 3.2,
+              "angle": 0.07
+            },
+            {
+              "t": 6.4,
+              "angle": -0.06
+            },
+            {
+              "t": 9.6,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 39.9,
+      "end": 48.0,
+      "layers": [
+        {
+          "type": "text",
+          "text": "ĂN THỊT SỐNG & CỦ DẠI.",
+          "x": 95,
+          "y": 110,
+          "size": 50,
+          "bold": true,
+          "color": "#C0392B"
+        },
+        {
+          "type": "text",
+          "text": "NHAI SỐNG NUỐT TƯƠI.",
+          "x": 95,
+          "y": 185,
+          "size": 44,
+          "bold": true
+        },
+        {
+          "type": "pose",
+          "pose": 0,
+          "x": 680,
+          "y": 15,
+          "w": 465
+        },
+        {
+          "id": "prop_note_8",
+          "type": "image",
+          "path": "@b1/idea-note-crayon.png",
+          "x": 120,
+          "y": 300,
+          "w": 190,
+          "motion": {
+            "role": "prop",
+            "reason": "Primal diet notes floating"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.06
+            },
+            {
+              "t": 2.7,
+              "angle": 0.06
+            },
+            {
+              "t": 5.4,
+              "angle": -0.05
+            },
+            {
+              "t": 8.1,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 48.0,
+      "end": 56.4,
+      "layers": [
+        {
+          "type": "text",
+          "text": "VI KHUẨN ĐỘC HẠI.",
+          "x": 95,
+          "y": 110,
+          "size": 52,
+          "bold": true,
+          "color": "#8E44AD"
+        },
+        {
+          "type": "text",
+          "text": "DẠ DÀY GỒNG MÌNH CHỊU ĐỰNG.",
+          "x": 95,
+          "y": 185,
+          "size": 42,
+          "bold": true,
+          "color": "#C0392B"
+        },
+        {
+          "type": "pose",
+          "pose": 2,
+          "x": 700,
+          "y": 25,
+          "w": 470
+        },
+        {
+          "id": "prop_camera_9",
+          "type": "image",
+          "path": "@b1/camera-handdrawn.png",
+          "x": 130,
+          "y": 310,
+          "w": 180,
+          "motion": {
+            "role": "prop",
+            "reason": "Focus on extreme biological stress"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.07
+            },
+            {
+              "t": 2.8,
+              "angle": 0.07
+            },
+            {
+              "t": 5.6,
+              "angle": -0.06
+            },
+            {
+              "t": 8.4,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 56.4,
+      "end": 64.2,
+      "layers": [
+        {
+          "type": "text",
+          "text": "BỜ VỰC TUYỆT CHỦNG.",
+          "x": 95,
+          "y": 110,
+          "size": 52,
+          "bold": true,
+          "color": "#7F8C8D"
+        },
+        {
+          "type": "text",
+          "text": "VŨ KHÍ MẠNH NHẤT: BỘ NÃO.",
+          "x": 95,
+          "y": 185,
+          "size": 44,
+          "bold": true,
+          "color": "#27AE60"
+        },
+        {
+          "type": "pose",
+          "pose": 1,
+          "x": 720,
+          "y": 35,
+          "w": 445
+        },
+        {
+          "id": "prop_bulb_10",
+          "type": "image",
+          "path": "@b1/idea-bulb-crayon.png",
+          "x": 130,
+          "y": 290,
+          "w": 200,
+          "motion": {
+            "role": "prop",
+            "reason": "Primal human brain spark ignites"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.06
+            },
+            {
+              "t": 2.6,
+              "angle": 0.06
+            },
+            {
+              "t": 5.2,
+              "angle": -0.05
+            },
+            {
+              "t": 7.8,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 64.2,
+      "end": 70.0,
+      "layers": [
+        {
+          "type": "text",
+          "text": "KHÁT VỌNG SỐNG SÓT.",
+          "x": 95,
+          "y": 110,
+          "size": 52,
+          "bold": true,
+          "color": "#E67E22"
+        },
+        {
+          "type": "text",
+          "text": "CẦN MỘT PHÉP MÀU!",
+          "x": 95,
+          "y": 185,
+          "size": 48,
+          "bold": true,
+          "color": "#E74C3C"
+        },
+        {
+          "type": "pose",
+          "pose": 0,
+          "x": 680,
+          "y": 15,
+          "w": 465
+        },
+        {
+          "id": "prop_open_11",
+          "type": "image",
+          "path": "@b1/open-source-crayon.png",
+          "x": 130,
+          "y": 300,
+          "w": 180,
+          "motion": {
+            "role": "prop",
+            "reason": "Hope badge turns towards future"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.06
+            },
+            {
+              "t": 1.93,
+              "angle": 0.06
+            },
+            {
+              "t": 3.87,
+              "angle": -0.05
+            },
+            {
+              "t": 5.8,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": 70.0,
+      "end": 74.75,
+      "layers": [
+        {
+          "type": "text",
+          "text": "TIẾNG SÉT XÉ TOẠC BẦU TRỜI!",
+          "x": 95,
+          "y": 110,
+          "size": 48,
+          "bold": true,
+          "color": "#F39C12"
+        },
+        {
+          "type": "text",
+          "text": "BƯỚC NGOẶT LỊCH SỬ!",
+          "x": 95,
+          "y": 185,
+          "size": 52,
+          "bold": true,
+          "color": "#E74C3C"
+        },
+        {
+          "type": "pose",
+          "pose": 2,
+          "x": 680,
+          "y": 25,
+          "w": 480
+        },
+        {
+          "id": "prop_spark_12",
+          "type": "image",
+          "path": "@b1/idea-bulb-crayon.png",
+          "x": 140,
+          "y": 290,
+          "w": 210,
+          "motion": {
+            "role": "prop",
+            "reason": "Lightning strike ignition explosion"
+          },
+          "keys": [
+            {
+              "t": 0.0,
+              "angle": -0.1
+            },
+            {
+              "t": 1.58,
+              "angle": 0.12
+            },
+            {
+              "t": 3.17,
+              "angle": -0.08
+            },
+            {
+              "t": 4.75,
+              "angle": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "font": "NotoSans.ttf",
+  "captionFont": "NotoSans.ttf"
+}
