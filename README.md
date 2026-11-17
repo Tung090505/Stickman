@@ -48,29 +48,104 @@ Stickman/
 - **Tài khoản Google/Gemini**
 - Thư viện Python: `playwright` (`pip install playwright` rồi `playwright install chromium`)
 
-## ▶️ Cách chạy dự án (từng bước)
+## 🚀 Quy trình sản xuất video từ A-Z (Chuẩn Thần Chú v5.3)
 
-### Bước 0: Đăng nhập Gemini (chỉ cần làm 1 lần)
+Quy trình tự động hóa hoàn chỉnh từ khi lên ý tưởng kịch bản đến khi xuất video thành phẩm:
 
-Nhấp đúp vào `DANG_NHAP_GEMINI.bat`. Cửa sổ Chrome sẽ mở ra trang Gemini. Hãy đăng nhập tài khoản Google. Khi thấy khung chat Gemini xuất hiện, hãy **đóng trình duyệt lại**. Phiên đăng nhập được lưu trong `gemini_browser_profile/`.
+---
 
-> ⚠️ `gemini_browser_profile/` nằm trong `.gitignore` — **không bao giờ push lên GitHub**.
+### ⚙️ Bước 0: Chuẩn bị một lần (Setup môi trường)
+1. **Đăng nhập Gemini:** Nhấp đúp vào [`DANG_NHAP_GEMINI.bat`](file:///C:/File%20D/Stickman/DANG_NHAP_GEMINI.bat) $\rightarrow$ Đăng nhập tài khoản Google $\rightarrow$ Khi thấy khung chat Gemini xuất hiện thì đóng trình duyệt lại (phiên đăng nhập được lưu vĩnh viễn trong `gemini_browser_profile/`).
+2. **Cài đặt FFmpeg:** Đảm bảo `ffmpeg` và `ffprobe` đã được thêm vào PATH hệ thống (đã có sẵn trên máy bạn).
+3. **Cài đặt Python & Playwright:**
+   ```powershell
+   pip install playwright
+   playwright install chromium
+   ```
 
-### Bước 1: Tự động tạo ảnh từ script
+---
 
-Nhấp đúp vào `CHAY_TU_DONG_TAO_ANH.bat`. Nhập cảnh bắt đầu (mặc định 1) và kết thúc (mặc định 70). Bot Playwright tự gửi từng prompt vào Gemini Web, chờ ảnh vẽ xong và tải về `caveman-story/images/`. Có độ trễ 20–28s giữa các ảnh để tránh bị chặn. Khi xong, bat tự gọi `XOA_LOGO_GEMINI.bat` để xóa watermark.
+### ✍️ Bước 1: Kêu AI viết kịch bản (Thần chú v5.3)
+1. Mở file [`PROMPT_CHO_AI_KHAC_V53.txt`](file:///C:/File%20D/Stickman/PROMPT_CHO_AI_KHAC_V53.txt), copy toàn bộ nội dung.
+2. Dán vào **ChatGPT**, **Claude** hoặc **Gemini**.
+3. Điền cấu hình ở phần đầu prompt:
+   - `TOOL_ẢNH: Gemini`
+   - `CHẾ_ĐỘ_GIỌNG: A`
+   - `ĐỘ_DÀI_MỤC_TIÊU: 1`
+   - `NHÂN_VẬT_CHÍNH: Bob` *(hoặc tên nhân vật bạn chọn)*
+4. Ở cuối prompt, dán chủ đề bạn muốn làm (ví dụ: *"Tại sao người cổ đại phát minh ra lửa?"*).
+5. **Duyệt kịch bản:**
+   - AI sẽ trả về **Bước 0** (bảng phiên âm + dàn ý + hồ sơ nhân vật). Nếu thấy ổn, bạn gõ: `duyệt`.
+   - AI sẽ xuất **Hồi 1** (bảng 9 cột nằm trong code block). Gõ `tiếp` để AI xuất tiếp Hồi 2, Hồi 3...
 
-### Bước 2: Xóa watermark (nếu chạy riêng lẻ)
+---
 
-Nhấp đúp vào `XOA_LOGO_GEMINI.bat`. Dùng Node.js + `gemini-watermark-remover` quét ảnh trong `caveman-story/images/`, kết quả lưu vào `caveman-story/images_clean/`.
+### 💾 Bước 2: Lưu file kịch bản
+1. Copy toàn bộ **bảng 9 cột** (từ dòng `STT | ...` đến hết dòng cuối cùng của hồi cuối).
+2. Dán vào Notepad và lưu thành file:
+   👉 **`C:\File D\Stickman\Kịch bản_chuong1.txt`**
 
-### Bước 3: Render video
+> [!IMPORTANT]
+> File phải lưu với bảng mã **UTF-8** (để không bị lỗi font tiếng Việt).
 
-Chạy trong terminal tại `C:/File D/Stickman`:
-`python tools/render_chapter_1.py`
-hoặc `python caveman-story/render_video.py`
+---
 
-Video xuất ra trong `caveman-story/output/` (không push lên git).
+### 🎨 Bước 3: Tự động tạo ảnh qua Gemini
+Mở Terminal (PowerShell / CMD) tại thư mục `C:\File D\Stickman`, chạy lệnh:
+
+```powershell
+python tools/auto_generate_images.py --from 1 --to 20
+```
+
+- **Cách hoạt động:** Bot Playwright tự khởi động Chrome, gửi từng prompt vào Gemini Web, đợi ảnh vẽ xong và tự động tải về thư mục `caveman-story/images/1.png`, `2.png`, ...
+- **Chống khóa tài khoản:** Bot tự động nghỉ ngẫu nhiên 20–28 giây giữa mỗi ảnh để mô phỏng thao tác người thật.
+- *(Lưu ý: Nếu đây là lần đầu chạy bot, hãy nhớ chạy `DANG_NHAP_GEMINI.bat` ở Bước 0 trước).*
+
+---
+
+### 🧹 Bước 4: Xóa watermark Gemini (Tùy chọn)
+Nhấp đúp chuột vào file:
+👉 **[`XOA_LOGO_GEMINI.bat`](file:///C:/File%20D/Stickman/XOA_LOGO_GEMINI.bat)** *(Yêu cầu đã cài Node.js)*
+
+- Toàn bộ ảnh đã tẩy sạch logo ngôi sao sẽ được lưu sang thư mục: `caveman-story/images_clean/`.
+- *(Nếu bỏ qua bước này, video vẫn render bình thường nhưng ảnh sẽ còn logo mờ ở góc).*
+
+---
+
+### 🎬 Bước 5: Render video hoàn chỉnh
+Chạy lệnh render chính xác các cảnh bạn vừa tạo ảnh:
+
+```powershell
+python tools/render_chapter_1.py --from 1 --to 20
+```
+
+**Script render sẽ tự động thực hiện:**
+- Đọc bảng từ `Kịch bản_chuong1.txt` (Lời thoại thuần Việt, thời lượng ước tính, file SFX, vị trí SFX).
+- **Silence Snapping:** Tự động bắt đúng khoảng lặng tự nhiên của giọng đọc, đảm bảo không bao giờ bị cắt chữ giữa câu.
+- Tự động ghép: **Hình ảnh** + **Giọng đọc (`Chương 1.wav`)** + **Phụ đề chuẩn ASS**.
+- Chèn âm thanh hiệu ứng SFX chuẩn xác theo quy tắc neo từ (nếu không muốn dùng SFX, thêm cờ `--no-sfx`).
+- Xuất video Full HD thành phẩm tại: `caveman-story\output\VIDEO_TEST_CHUONG_1.mp4`.
+
+---
+
+### 👁️ Bước 6: Nghiệm thu video
+Mở thư mục `caveman-story\output\` và bật file `VIDEO_TEST_CHUONG_1.mp4` lên xem thành quả, hoặc nhấp đúp file:
+👉 **[`MO_VIDEO_TEST.bat`](file:///C:/File%20D/Stickman/MO_VIDEO_TEST.bat)**
+
+---
+
+## ⚡ Bảng lệnh tóm tắt (Cheat Sheet - Copy & Chạy)
+
+```powershell
+# 1. Tự động vẽ ảnh từ cảnh 1 đến 20:
+python tools/auto_generate_images.py --from 1 --to 20
+
+# 2. Xóa watermark Gemini (tùy chọn):
+.\XOA_LOGO_GEMINI.bat
+
+# 3. Render video hoàn chỉnh từ cảnh 1 đến 20:
+python tools/render_chapter_1.py --from 1 --to 20
+```
 ## 📜 Các file .bat chính
 
 | File | Chức năng |

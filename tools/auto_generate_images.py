@@ -12,29 +12,69 @@ if sys.stdout.encoding != 'utf-8':
         pass
 
 BASE_DIR = r"C:\File D\Stickman"
-SCRIPT_PATH = os.path.join(BASE_DIR, "Kịch bản loại người xuất hiện.txt")
 IMAGES_DIR = os.path.join(BASE_DIR, "caveman-story", "images")
 USER_DATA_DIR = os.path.join(BASE_DIR, "gemini_browser_profile")
 MODEL_SHEET_IMG = os.path.join(BASE_DIR, "caveman-story", "GROK_REFERENCE_SHEET.png")
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
-def load_prompts():
+sys.path.insert(0, os.path.dirname(__file__))
+from parse_storyboard import parse_storyboard
+
+def find_default_script():
+    candidates = [
+        os.path.join(BASE_DIR, "Kịch bản_chuong1.txt"),
+        os.path.join(BASE_DIR, "Kịch bản loại người xuất hiện.txt"),
+        os.path.join(BASE_DIR, "Kịch bản thử v5.2.txt"),
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return candidates[0]
+
+def load_prompts(start=1, end=9999, script_path=None):
+    """
+    Doc bang phan canh v5.2/v5.3 va tra ve list (stt, prompt_anh) trong khoang [start, end].
+    """
+    actual_path = script_path or find_default_script()
     shots = []
-    if not os.path.exists(SCRIPT_PATH):
-        print(f"[LỖI] Không tìm thấy file kịch bản tại: {SCRIPT_PATH}")
+    if not os.path.exists(actual_path):
+        print(f"[LOI] Khong tim thay file kich ban tai: {actual_path}")
         return shots
-        
-    with open(SCRIPT_PATH, "r", encoding="utf-8", errors="ignore") as f:
-        for line in f:
-            if line.strip().startswith("| **"):
-                parts = [x.strip() for x in line.split("|")]
-                if len(parts) >= 8:
-                    stt_str = parts[1].replace("*", "").strip()
-                    prompt_str = parts[7].strip().strip("`")
-                    if stt_str.isdigit():
-                        shots.append((int(stt_str), prompt_str))
+
+    print(f"[*] Dang doc kich ban tu: {actual_path}")
+    rows = parse_storyboard(actual_path)
+    print(f"[*] Đã parse {len(rows)} cảnh từ file kich ban.")
+    if not rows:
+        print("[LỖI] File kich ban rỗng hoặc không đúng định dạng bảng!")
+        print("[GỢI Ý] Đảm bảo file có bảng markdown với cột 'STT' và 'Prompt tạo ảnh (English)'")
+        return shots
+    
+    for row in rows:
+        try:
+            stt = int(str(row.get("stt", "0")).strip().strip("*"))
+        except (ValueError, AttributeError):
+            continue
+        if start <= stt <= end:
+            # Thử nhiều key khác nhau cho prompt
+            prompt = ""
+            for key in ["prompt_anh", "prompt", "prompt_ảnh", "prompt_anh_english"]:
+                if key in row and row[key]:
+                    prompt = str(row[key]).strip().strip("`").strip()
+                    break
+            if not prompt:
+                # Fallback: tìm cột chứa "prompt" trong tên
+                for k, v in row.items():
+                    if "prompt" in k.lower() and v:
+                        prompt = str(v).strip().strip("`").strip()
+                        break
+            if prompt:
+                shots.append((stt, prompt))
     shots.sort(key=lambda x: x[0])
+    if not shots:
+        print(f"[LỖI] Không tìm thấy prompt nào trong khoảng STT {start}-{end}")
+        print(f"[GỢI Ý] File có {len(rows)} cảnh (STT: {rows[0].get('stt','?')} - {rows[-1].get('stt','?')})")
     return shots
+
 
 def smooth_scroll_down(page, pixels=500):
     try:
@@ -147,13 +187,13 @@ def attach_reference_sheet(page):
 
     return False
 
-def run_continuous_generator(start_shot=1, end_shot=155):
-    all_shots = load_prompts()
+def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
+    all_shots = load_prompts(start=start_shot, end=end_shot, script_path=script_path)
     if not all_shots:
         print("[LỖI] Danh sách prompt rỗng!")
         return
 
-    shots_to_run = [s for s in all_shots if start_shot <= s[0] <= end_shot]
+    shots_to_run = all_shots
     print("=" * 60)
     print(f"[*] CHẾ ĐỘ ĐỒNG NHẤT NHÂN VẬT GROK (TỔNG CỘNG {len(all_shots)} ẢNH)")
     print(f"[*] Sẽ vẽ tự động từ cảnh {start_shot} đến {end_shot} ({len(shots_to_run)} ảnh)...")
@@ -348,9 +388,16 @@ def run_continuous_generator(start_shot=1, end_shot=155):
         browser.close()
 
 if __name__ == "__main__":
-    start = 1
-    end = 155
-    if len(sys.argv) >= 3:
-        start = int(sys.argv[1])
-        end = int(sys.argv[2])
-    run_continuous_generator(start, end)
+    import argparse
+    parser = argparse.ArgumentParser(description="Auto generate images with Gemini")
+    parser.add_argument("pos_start", nargs="?", type=int, default=None, help="STT bat dau (positional)")
+    parser.add_argument("pos_end", nargs="?", type=int, default=None, help="STT ket thuc (positional)")
+    parser.add_argument("--from", type=int, dest="start", default=None, help="STT bat dau")
+    parser.add_argument("--to", type=int, dest="end", default=None, help="STT ket thuc")
+    parser.add_argument("--script", type=str, default=None, help="Duong dan file kich ban (.txt)")
+    args, _ = parser.parse_known_args()
+
+    start = args.start if args.start is not None else (args.pos_start if args.pos_start is not None else 1)
+    end = args.end if args.end is not None else (args.pos_end if args.pos_end is not None else 155)
+    script_file = args.script or find_default_script()
+    run_continuous_generator(start, end, script_path=script_file)

@@ -11,11 +11,17 @@ os.makedirs(cache_dir, exist_ok=True)
 sound_map = {
     "Ding.mp3": "ding.mp3",
     "pop.mp3": "pop.mp3",
-    "Tiếng dế.mp3": "crickets.mp3",
-    "Tiếng gió.mp3": "wind.mp3",
-    "Tiếng lửa.mp3": "fire.mp3",
-    "Tiếng sấm.mp3": "thunder.mp3",
-    "Tiếng tim đập.mp3": "heartbeat.mp3"
+    "Crickets.mp3": "Crickets.mp3",
+    "Wind.mp3": "Wind.mp3",
+    "Fire Crackle.mp3": "Fire Crackle.mp3",
+    "Thunder.mp3": "Thunder.mp3",
+    "Heartbeat.mp3": "Heartbeat.mp3",
+    "Explosion.mp3": "Explosion.mp3",
+    "Water Splash.mp3": "Water Splash.mp3",
+    "Whoosh Transition.mp3": "Whoosh Transition.mp3",
+    "gasp.mp3": "gasp.mp3",
+    "sparkle.mp3": "sparkle.mp3",
+    "glitch.mp3": "glitch.mp3",
 }
 
 for orig, clean in sound_map.items():
@@ -27,7 +33,7 @@ for orig, clean in sound_map.items():
     else:
         print(f"Warning: {orig} not found!")
 
-voice_file = os.path.join(base_dir, "chuong1.wav")
+voice_file = os.path.join(base_dir, "Chuong 1.wav")
 raw_video = os.path.join(output_dir, "video_raw.mp4")
 ass_path = os.path.join(output_dir, "captions.ass")
 final_video = os.path.join(output_dir, "video_chuong1_am_thanh_song_dong.mp4")

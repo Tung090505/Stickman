@@ -1,6 +1,12 @@
 import os
+import sys
 import subprocess
 import json
+import re
+import argparse
+
+sys.path.insert(0, os.path.dirname(__file__))
+from parse_storyboard import parse_storyboard
 
 BASE_DIR = r"C:\File D\Stickman"
 STORY_DIR = os.path.join(BASE_DIR, "caveman-story")
@@ -12,25 +18,86 @@ OUTPUT_VIDEO = os.path.join(OUTPUT_DIR, "VIDEO_TEST_CHUONG_1.mp4")
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# 1. Parse Script for Chapter 1 (Shots 1 to 35)
-SCRIPT_PATH = os.path.join(BASE_DIR, "Kịch bản loại người xuất hiện.txt")
+# Anh xa ten SFX chuan (v5.2) -> ten file thuc te trong thu muc sounds/
+SFX_FILES = {
+    "pop.mp3": "pop.mp3",
+    "fast_whoosh.mp3": "Fast Whoosh.mp3",
+    "wrong_answer_buzzer.mp3": "Wrong answer buzzer.mp3",
+    "record_scratch.mp3": "Record Scratch.mp3",
+    "ding.mp3": "ding.mp3",
+    "dramatic_boom.mp3": "Dramatic Boom.mp3",
+    "cartoon_punch.mp3": "Cartoon Punch.mp3",
+    "tada.mp3": "Tada.mp3",
+    "whoosh_slow.mp3": "Whoosh Transition.mp3",
+    "sparkle.mp3": "sparkle.mp3",
+    "gasp.mp3": "gasp.mp3",
+    "fire_crackle.mp3": "Fire Crackle.mp3",
+    "thunder.mp3": "Thunder.mp3",
+    "heartbeat.mp3": "Heartbeat.mp3",
+    "explosion.mp3": "Explosion.mp3",
+    "water_splash.mp3": "Water Splash.mp3",
+    "wind.mp3": "Wind.mp3",
+    "crickets.mp3": "Crickets.mp3",
+    "glitch.mp3": "glitch.mp3",
+}
+
+# 1. Parse Script tu bang v5.2 (ho tro khoang canh qua --from/--to)
+def find_default_script():
+    candidates = [
+        os.path.join(BASE_DIR, "Kịch bản_chuong1.txt"),
+        os.path.join(BASE_DIR, "Kịch bản loại người xuất hiện.txt"),
+        os.path.join(BASE_DIR, "Kịch bản thử v5.2.txt"),
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return candidates[0]
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--script", type=str, default=None, help="Duong dan file kich ban v5.2/v5.3")
+parser.add_argument("--from", type=int, default=1, dest="start_stt", help="STT bat dau")
+parser.add_argument("--to", type=int, default=99999, dest="end_stt", help="STT ket thuc")
+parser.add_argument("--no-sfx", action="store_true", help="Tat SFX")
+args, _ = parser.parse_known_args()
+
+script_file = args.script or find_default_script()
+print(f"[*] Dang doc kich ban tu: {script_file}")
+rows = parse_storyboard(script_file)
 shots = []
-with open(SCRIPT_PATH, "r", encoding="utf-8") as f:
-    for line in f:
-        if line.strip().startswith("| **") and len(line.split("|")) >= 8:
-            p = [x.strip() for x in line.split("|")]
-            stt = int(p[1].replace("*", ""))
-            if stt <= 35:
-                t = p[2].replace("s", "").split("-")
-                dur = float(t[1].strip()) - float(t[0].strip())
-                words = len(p[4].split())
-                shots.append({
-                    "stt": stt,
-                    "planned_dur": dur,
-                    "words": words,
-                    "text": p[4],
-                    "loai": p[3]
-                })
+for row in rows:
+    try:
+        stt = int(row.get("stt", "0").strip("*"))
+    except Exception:
+        continue
+    if not (args.start_stt <= stt <= args.end_stt):
+        continue
+
+    try:
+        dur = float(row.get("thoi_luong", "3.0"))
+    except Exception:
+        dur = 3.0
+
+    text = row.get("loi_thoai", "")
+    words = len(text.split())
+
+    ten_sfx_raw = row.get("ten_sfx", "none").strip()
+    ten_sfx = SFX_FILES.get(ten_sfx_raw, ten_sfx_raw if ten_sfx_raw != "none" else "none")
+
+    tu_neo = row.get("tu_neo", "-").strip()
+    vi_tri = row.get("vi_tri_sfx", "-").strip()
+
+    shots.append({
+        "stt": stt,
+        "planned_dur": dur,
+        "words": words,
+        "text": text,
+        "loai": row.get("loai_canh", ""),
+        "ten_sfx": ten_sfx if ten_sfx_raw != "none" else None,
+        "tu_neo": tu_neo if tu_neo != "-" else "",
+        "vi_tri": vi_tri if vi_tri != "-" else "",
+    })
+
+shots.sort(key=lambda x: x["stt"])
 
 # 2. Get exact Audio Duration
 cmd_dur = [
@@ -86,7 +153,7 @@ shots[-1]["end"] = round(audio_dur, 2)
 shots[-1]["dur"] = round(audio_dur - last_boundary, 2)
 
 for s in shots:
-    print(f"  Cảnh {s['stt']:02d}: {s['start']:5.1f}s -> {s['end']:5.1f}s ({s['dur']:4.1f}s)")
+    print(f"  Canh {s['stt']:02d}: {s['start']:5.1f}s -> {s['end']:5.1f}s ({s['dur']:4.1f}s)")
 
 # 4. Generate SRT Subtitles
 SRT_FILE = os.path.join(OUTPUT_DIR, "subtitles_chuong_1.srt")
@@ -118,65 +185,42 @@ with open(CONCAT_FILE, "w", encoding="utf-8") as f:
     last_img = os.path.join(IMAGES_DIR, f"{shots[-1]['stt']}.png")
     f.write(f"file '{last_img.replace(chr(92), '/')}'\n")
 
-# 6. Smart Dynamic SFX Sound Effects (Chon loc dung diem cham gay cuoi / nhan manh)
-# Moi cue co offset_ratio: Ty le thoi gian trong canh (0.0: dau cau, 0.5: giua cau, 0.8: cuoi cau)
-sfx_cues = [
-    # Cảnh 02: Tua ngược về 6 triệu năm trước
-    {"stt": 2, "file": "Time rewind whoosh.mp3", "vol": 0.45, "offset_ratio": 0.15},
-    # Cảnh 04: Không deadline dí (Dấu X đỏ)
-    {"stt": 4, "file": "buzzer.mp3", "vol": 0.35, "offset_ratio": 0.30},
-    # Cảnh 05: Không hóa đơn tiền nhà (Dấu X đỏ)
-    {"stt": 5, "file": "Wrong answer buzzer.mp3", "vol": 0.35, "offset_ratio": 0.30},
-    # Cảnh 07: Trái Đất bỗng đổi tính (Đột ngột, kịch tính)
-    {"stt": 7, "file": "Dramatic Sub Boom.mp3", "vol": 0.45, "offset_ratio": 0.45},
-    # Cảnh 10: Ở trên cây thì chết đói (Thất vọng não nề)
-    {"stt": 10, "file": "Sad Trombone.mp3", "vol": 0.40, "offset_ratio": 0.40},
-    # Cảnh 12: Dưới bãi cỏ là con hổ răng kiếm 300 cân
-    {"stt": 12, "file": "heartbeat.mp3", "vol": 0.45, "offset_ratio": 0.30},
-    # Cảnh 16: Grok thử duỗi thẳng lưng và ĐỨNG DẬY!
-    {"stt": 16, "file": "ding.mp3", "vol": 0.45, "offset_ratio": 0.65},
-    # Cảnh 18: Đứng thẳng thì... ôi thôi ĐAU CÁI LƯNG! (Tiếng rắc xương cột sống)
-    {"stt": 18, "file": "Bone Crack.mp3", "vol": 0.50, "offset_ratio": 0.70},
-    # Cảnh 19: Làm gì có Salonpas (Dấu X đỏ)
-    {"stt": 19, "file": "buzzer.mp3", "vol": 0.35, "offset_ratio": 0.30},
-    # Cảnh 20: Đôi tay ĐÃ ĐƯỢC GIẢI PHÓNG! (Tada hân hoan)
-    {"stt": 20, "file": "Tada.mp3", "vol": 0.45, "offset_ratio": 0.40},
-    # Cảnh 23: Đập mạnh hai hòn đá... BỐP!
-    {"stt": 23, "file": "Cartoon Punch.mp3", "vol": 0.50, "offset_ratio": 0.80},
-    # Cảnh 24: Công cụ đầu tiên của loài người (Lóe sáng)
-    {"stt": 24, "file": "ding.mp3", "vol": 0.45, "offset_ratio": 0.50},
-    # Cảnh 25: Quên dao bếp Nhật đi (Dấu X đỏ)
-    {"stt": 25, "file": "buzzer.mp3", "vol": 0.35, "offset_ratio": 0.30},
-    # Cảnh 26: Săn thú to ư? Mơ đi cưng! (Tiếng kẹt đĩa phá đám)
-    {"stt": 26, "file": "Record Scratch.mp3", "vol": 0.45, "offset_ratio": 0.65},
-    # Cảnh 31: RẮC! Ống xương nứt toác, lộ tủy xương (Tiếng gãy xương rắc)
-    {"stt": 31, "file": "Bone Crack.mp3", "vol": 0.50, "offset_ratio": 0.15},
-    # Cảnh 33: Không cần sữa bột DHA (Dấu X đỏ)
-    {"stt": 33, "file": "buzzer.mp3", "vol": 0.35, "offset_ratio": 0.30},
-    # Cảnh 35: Bước ngoặt vĩ đại nhất: NGỌN LỬA! (Bùng cháy / sấm sét)
-    {"stt": 35, "file": "thunder.mp3", "vol": 0.45, "offset_ratio": 0.65},
-]
+# 6. Smart Dynamic SFX Sound Effects (doc tu bang v5.2, neo theo tu)
+ENABLE_SFX = not args.no_sfx
 
-# Bat/tat SFX: Nguoi dung yeu cau tap trung vao giong doc sach va hinh anh
-ENABLE_SFX = False
+def _offset_from_vi_tri(vi_tri: str, dur: float) -> float:
+    """Chuyen vi tri chen (truoc/sau/dau canh) thanh offset giay trong canh."""
+    v = vi_tri.lower()
+    if v == "dau canh" or v == "dau":
+        return 0.0
+    if v == "sau":
+        return dur * 0.85
+    if v == "truoc":
+        return dur * 0.15
+    return dur * 0.5
 
 valid_sfx = []
 if ENABLE_SFX:
-    for cue in sfx_cues:
-        sfx_path = os.path.join(SOUNDS_DIR, cue["file"])
-        if os.path.exists(sfx_path):
-            shot_info = next((s for s in shots if s["stt"] == cue["stt"]), None)
-            if shot_info:
-                offset_seconds = shot_info["dur"] * cue.get("offset_ratio", 0.0)
-                exact_time_s = shot_info["start"] + offset_seconds
-                valid_sfx.append({
-                    "stt": cue["stt"],
-                    "file": cue["file"],
-                    "time_ms": int(exact_time_s * 1000),
-                    "exact_time_s": exact_time_s,
-                    "path": sfx_path,
-                    "vol": cue.get("vol", 0.4)
-                })
+    for s in shots:
+        ten_sfx = s.get("ten_sfx")
+        if not ten_sfx:
+            continue
+        sfx_path = os.path.join(SOUNDS_DIR, ten_sfx)
+        if not os.path.exists(sfx_path):
+            print(f"[!] Khong tim thay SFX: {sfx_path}")
+            continue
+        dur = s.get("dur", s.get("planned_dur", 3.0))
+        offset_seconds = _offset_from_vi_tri(s.get("vi_tri", ""), dur)
+        exact_time_s = s["start"] + offset_seconds
+        valid_sfx.append({
+            "stt": s["stt"],
+            "file": ten_sfx,
+            "time_ms": int(exact_time_s * 1000),
+            "exact_time_s": exact_time_s,
+            "path": sfx_path,
+            "vol": 0.45,
+            "tu_neo": s.get("tu_neo", "")
+        })
 
 print(f"[*] Che do SFX: {'BAT' if ENABLE_SFX else 'TAT HOAN TOAN (Video sach chi co Hinh + Giong to ro)'}")
 

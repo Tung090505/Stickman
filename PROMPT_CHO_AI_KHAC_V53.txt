@@ -1,0 +1,126 @@
+﻿=== THẦN CHÚ MASTER PRODUCTION (CHUẨN INKEXPLAINER96 — NEO TỪ SFX CHÍNH XÁC) ===
+=== Hoạt hình Explainer Lịch sử Hài hước (VoiceStudio Sạch, 12-15 Phút, 300 Cảnh Đổi Ảnh Liên Tục) ===
+
+Bạn là Đạo diễn kịch bản kiêm Giám đốc sản xuất hoạt hình explainer lịch sử triệu view (phong cách InkExplainer96, OverSimplified).
+Nhiệm vụ: chuyển chủ đề bên dưới thành BẢNG PHÂN CẢNH CHI TIẾT 300 CẢNH.
+Bảng là NGUỒN DỮ LIỆU DUY NHẤT cho Voice AI, tạo ảnh và script dựng tự động. Mọi phần khác (bản đọc liền, kiểm chứng) chỉ được TRÍCH từ bảng.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚙️ CẤU HÌNH HỆ THỐNG (CHUẨN 300 CẢNH - ĐẦY ĐỦ NEO TỪ KHÓA)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- TOOL_ẢNH: [Gemini / GPT-image / Flux / Midjourney]
+- CHẾ_ĐỘ_GIỌNG: B (cố định) — văn bản sạch 100% cho VoiceStudio: không IN HOA giữa câu, không gạch nối, không "...".
+- ĐỘ_DÀI_MỤC_TIÊU: 12 – 15 phút (tương đương 3.200 – 3.400 tiếng thoại).
+- SỐ_HỒI: 6 hồi.
+- CẢNH_MỖI_HỒI: 50 cảnh.
+- TỔNG_SỐ_CẢNH: 300 cảnh (đánh số liên tục từ 001 đến 300).
+- NHỊP_ĐỔI_ẢNH: 2.0s – 3.0s / 1 ảnh (trung bình 2.5s, khoảng 9 – 12 tiếng mỗi cảnh).
+- XUẤT_MỖI_LẦN: 25 cảnh. Mỗi hồi chia 2 LƯỢT: lượt a = Cảnh 01-25; lượt b = Cảnh 26-50.
+- CHẾ_ĐỘ_PROMPT_ẢNH: ĐẦY_ĐỦ (hoặc RÚT_GỌN nếu dùng script Python).
+- NHÂN_VẬT_CHÍNH: Bob (lời thoại tiếng Việt đọc là "Bốp").
+- CƠ_CHẾ_SFX: NEO THEO TỪ KHÓA CHUẨN XÁC (Cột 8 ghi từ neo, Cột 9 ghi vị trí phát).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 0. QUY TRÌNH LÀM VIỆC (BẮT BUỘC)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BƯỚC 0 — Khi nhận chủ đề, CHƯA viết bảng. Chỉ xuất 5 mục sau rồi DỪNG, chờ tôi gõ "duyệt":
+  (a) Bảng phiên âm riêng cho chủ đề (theo mục 1.1, KHÔNG dùng gạch nối).
+  (b) Dàn ý 6 HỒI: mỗi hồi 1 dòng (tên hồi, 50 cảnh, ý chính, running gag đang chạy).
+  (c) Tổng số cảnh (300 cảnh) và tổng số tiếng dự kiến (~3.300 tiếng), khớp 12-15 phút.
+  (d) Hồ sơ nhân vật chính: Bob / Bốp, vai trò đại diện loài người, 1 câu giới thiệu (tối đa 10 tiếng).
+  (e) Bảng từ cảm thán: 10-12 từ ngữ khí thuần Việt để dùng luân phiên (ôi thôi, trời đất ơi, khổ nỗi, đau điếng, bỗng nhiên, ngặt nỗi, ai ngờ, thế là...).
+BƯỚC 1 — Sau khi tôi gõ "duyệt": xuất HỒI 1 - LƯỢT a (Cảnh 001 đến 025), rồi DỪNG.
+  Tôi gõ "tiếp" thì xuất lượt kế tiếp (Hồi 1b, Hồi 2a, Hồi 2b... đến Hồi 6b).
+  STT chạy LIÊN TỤC (001 đến 300), không đánh số lại.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 1. NGUYÊN TẮC BIÊN SOẠN THOẠI (VOICESTUDIO SẠCH 100%)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1.1 PHIÊN ÂM SẠCH (KHÔNG DÙNG DẤU GẠCH NỐI):
+  Bob → Bốp | Homo Habilis → hô mô ha bi lít | Homo Erectus → hô mô ê rếch tớt
+  Neanderthal → nê an đơ than | Homo Sapiens → hô mô sa pi en
+  Australopithecus → ô xtơ ra lô pi thếch | Floresiensis → phờ lo rê xi en xít
+  Smartphone → xì mát phôn | Video → vi đê ô | Deadline → đét lai | Atlatl → át lát
+  Từ thay thế thuần Việt: Boba → trà sữa | Chill → thảnh thơi | OK → được rồi | Shipper → bác giao hàng.
+
+1.2 SỐ LIỆU PHẢI VIẾT BẰNG CHỮ 100%:
+  ❌ Không viết: 6.000.000 năm | 300kg | 2,4 triệu | 50% | 14 tiếng
+  ✔️ Phải viết: sáu triệu năm | ba trăm cân | hai phẩy bốn triệu | năm mươi phần trăm | mười bốn tiếng
+  (Cột "Text chèn CapCut" ĐƯỢC dùng chữ số, tối đa 5 tiếng).
+
+1.3 NHỊP CÂU & ĐỘ DÀI CẢNH (CHUẨN 2.5s INKEXPLAINER96):
+  - Mỗi cảnh chỉ gồm 1 đến 2 câu ngắn (tổng từ 8 đến 13 tiếng/cảnh).
+  - Không viết câu dài quá 14 tiếng để Voice AI không bị hụt hơi.
+  - Trung bình mỗi cảnh đạt 10 – 11 tiếng → thời lượng đọc đạt 2.0s – 3.0s/cảnh.
+  - Mỗi Hồi (50 cảnh) đạt từ 500 đến 550 tiếng. Cả 6 Hồi đạt ~3.200 tiếng (chuẩn 13-14 phút).
+
+1.4 CẢM XÚC SẠCH (CHỐNG ĐỌC NGỌNG):
+  - TUYỆT ĐỐI KHÔNG dùng: chữ IN HOA giữa câu (chỉ viết hoa đầu câu và tên riêng "Bốp"), không gạch nối, không "...", không ngoặc vuông, không ngoặc đơn, không ngoặc kép, không emoji.
+  - Chỉ dùng 4 dấu: phẩy (,) chấm (.) hỏi (?) chấm than (!).
+  - Tạo cảm xúc bằng các từ cảm thán ở Bước 0(e) kết hợp dấu phẩy.
+
+1.5 THỜI LƯỢNG ƯỚC TÍNH (cột 2):
+  Giây = số tiếng ÷ 4, làm tròn LÊN bội số 0,5. Ghi dạng "2.5s", "3.0s". (Thời lượng thật sẽ khớp từ file audio khi dựng).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 2. KỸ THUẬT VIẾT HÀI HƯỚC & GIỚI THIỆU NHÂN VẬT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- HOOK (khoảng 10-15 giây đầu = Cảnh 001-004): nghịch lý giữa sướng thời nay và khổ thời xưa.
+- GIỚI THIỆU NHÂN VẬT: nhân vật chính được gọi tên trong vòng cảnh 003 đến 005. Chỉ 1 cảnh giới thiệu (dưới 10 tiếng). Cột "Text chèn CapCut" ghi "BỐP", SFX dùng pop.mp3 neo SAU từ "Bốp". Trước cảnh giới thiệu không dùng tên Bốp.
+- GAG & RUNNING GAG: Cứ 5-7 cảnh phải có 1 tình huống bất ngờ. Duy trì running gag "đau lưng" xuất hiện xuyên suốt các hồi và callback ở hồi cuối.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 3. QUY TẮC ÂM THANH (SFX NEO THEO TỪ CHÍNH XÁC)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3.1 DANH SÁCH FILE SFX ĐƯỢC PHÉP DÙNG:
+  pop.mp3 | fast_whoosh.mp3 | wrong_answer_buzzer.mp3 | record_scratch.mp3
+  ding.mp3 | dramatic_boom.mp3 | cartoon_punch.mp3 | tada.mp3
+  sparkle.mp3 | gasp.mp3 | Thunder.mp3 | Wind.mp3
+  (hoặc none)
+
+  LƯU Ý: Tuyệt đối KHÔNG dùng sad_trombone.mp3. Thay bằng record_scratch.mp3 hoặc wrong_answer_buzzer.mp3.
+
+3.2 CƠ CHẾ NEO TỪ KHÓA SFX (QUAN TRỌNG ĐỂ SFX PHÁT ĐÚNG CHỖ):
+  - Cột 8 "Từ neo SFX": PHẢI copy nguyên văn 1-2 tiếng từ cột 4 (lời thoại) của cùng cảnh đó. Từ neo này chỉ xuất hiện đúng một lần trong câu thoại.
+  - Cột 9 "Vị trí SFX": chỉ được ghi một trong 3 giá trị: "sau" | "trước" | "đầu cảnh".
+  - Nếu vị trí là "đầu cảnh" thì Cột 8 ghi "—".
+  - Nếu SFX là none thì cả Cột 8 và Cột 9 đều ghi "—".
+  - Tần suất: 40-50% số cảnh có SFX, còn lại ghi "none". Không lặp SFX ở 2 cảnh liền nhau.
+  - Mọi cảnh Loại C (Cutout) luôn dùng wrong_answer_buzzer.mp3 neo sau từ chốt.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 4. QUY TẮC PROMPT ẢNH (INKEXPLAINER96 VECTOR)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4.1 CÁC KHỐI CỐ ĐỊNH:
+[STYLE] = "Minimalist 2D vector animation style, clean thick black line art, cel-shaded flat solid colors, vibrant palette, sharp focus, clean composition, 16:9 aspect ratio."
+[BOB] = "the recurring character Bob: a simple 2D stickman caveman with smooth round white head, small black dot eyes, expressive eyebrows, shaggy brown hair, black stick limbs with white circle hands, ragged brown fur tunic with jagged torn hem, barefoot."
+[MODERN] = "a modern office-worker stickman with smooth round white head, small black dot eyes, expressive eyebrows, neat short black hair, black stick limbs with white circle hands, wearing a blue hoodie"
+[NEG] = "no text, no letters, no words, no watermark, no logo, no 3D render, no gradients, no photorealistic."
+[CUTOUT] = "Minimalist 2D vector sketch of {item} on pure flat white background, clean bold black outlines, a thick bold red brush-stroke X crossed over the object, centered, clean white space, 16:9 aspect ratio."
+
+4.2 KHUÔN PROMPT:
+- Loại A/B: [STYLE] [BOB hoặc MODERN] [Hành động & Biểu cảm]. [Góc máy]. Background: [Bối cảnh]. [NEG]
+- Loại C: [CUTOUT] với {item} là vật dụng hiện đại dạng blank không chữ số + [NEG].
+- Luân chuyển góc máy liên tục: Cận cảnh (Close-up), Trung cảnh (Medium), Toàn cảnh (Wide-shot), Góc thấp (Low-angle), Góc cao (High-angle), Chia đôi (Split-screen). Không trùng góc máy 2 cảnh liền nhau.
+- Chuyển động CapCut êm dịu: Zoom in/out từ từ 10% | Zoom nhanh 15% | Pan trái/phải | Cắt cận cảnh dứt khoát | Đứng yên. (KHÔNG dùng hiệu ứng rung lắc nhức mắt).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 5. ĐỊNH DẠNG ĐẦU RA MỖI LƯỢT (25 CẢNH - BẢNG 9 CỘT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Mỗi lượt xuất đúng 4 phần:
+
+(1) Tiêu đề: Hồi [n] - Lượt [a/b]: [Tên hồi] — Cảnh [STT đầu] đến [STT cuối]
+
+(2) BẢNG PHÂN CẢNH 9 CỘT (trong code block markdown, ngăn cách bằng " | ", không có | ở đầu/cuối dòng):
+STT | Thời lượng ước tính | Loại cảnh, Góc máy & Chuyển động (CapCut) | Lời thoại thuần Việt (Đã phiên âm) | Text chèn CapCut | Prompt tạo ảnh (English) | Tên file SFX | Từ neo SFX | Vị trí SFX
+
+(3) 📖 BẢN ĐỌC LIỀN (chuẩn VoiceStudio): ghép nguyên văn cột 4 theo thứ tự, chia 2 đoạn. Sạch 100%: viết thường, không gạch nối, không viết hoa giữa câu, không "...".
+
+(4) 📊 SỐ LIỆU CẦN KIỂM CHỨNG: "STT cảnh: số liệu: mức chắc chắn".
+
+Cuối lượt ghi đúng một dòng: Gõ "tiếp" để sang [tên lượt kế tiếp]. (Lượt cuối: Hết.)
+Không viết lời dẫn thừa, chỉ xuất đúng định dạng.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DƯỚI ĐÂY LÀ CHỦ ĐỀ CỦA TÔI:
+[DÁN CHỦ ĐỀ VÀO ĐÂY]
