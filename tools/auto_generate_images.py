@@ -22,9 +22,7 @@ from parse_storyboard import parse_storyboard
 
 def find_default_script():
     candidates = [
-        os.path.join(BASE_DIR, "Kịch bản_chuong1.txt"),
         os.path.join(BASE_DIR, "Kịch bản loại người xuất hiện.txt"),
-        os.path.join(BASE_DIR, "Kịch bản thử v5.2.txt"),
     ]
     for c in candidates:
         if os.path.exists(c):
@@ -32,9 +30,6 @@ def find_default_script():
     return candidates[0]
 
 def load_prompts(start=1, end=9999, script_path=None):
-    """
-    Doc bang phan canh v5.2/v5.3 va tra ve list (stt, prompt_anh) trong khoang [start, end].
-    """
     actual_path = script_path or find_default_script()
     shots = []
     if not os.path.exists(actual_path):
@@ -43,44 +38,21 @@ def load_prompts(start=1, end=9999, script_path=None):
 
     print(f"[*] Dang doc kich ban tu: {actual_path}")
     rows = parse_storyboard(actual_path)
-    print(f"[*] Đã parse {len(rows)} cảnh từ file kich ban.")
-    if not rows:
-        print("[LỖI] File kich ban rỗng hoặc không đúng định dạng bảng!")
-        print("[GỢI Ý] Đảm bảo file có bảng markdown với cột 'STT' và 'Prompt tạo ảnh (English)'")
-        return shots
-    
     for row in rows:
         try:
-            stt = int(str(row.get("stt", "0")).strip().strip("*"))
-        except (ValueError, AttributeError):
+            stt = int(row.get("stt", "0").strip("*"))
+        except Exception:
             continue
         if start <= stt <= end:
-            # Thử nhiều key khác nhau cho prompt
-            prompt = ""
-            for key in ["prompt_anh", "prompt", "prompt_ảnh", "prompt_anh_english"]:
-                if key in row and row[key]:
-                    prompt = str(row[key]).strip().strip("`").strip()
-                    break
-            if not prompt:
-                # Fallback: tìm cột chứa "prompt" trong tên
-                for k, v in row.items():
-                    if "prompt" in k.lower() and v:
-                        prompt = str(v).strip().strip("`").strip()
-                        break
+            prompt = row.get("prompt_anh", "").strip().strip("`")
             if prompt:
                 shots.append((stt, prompt))
     shots.sort(key=lambda x: x[0])
-    if not shots:
-        print(f"[LỖI] Không tìm thấy prompt nào trong khoảng STT {start}-{end}")
-        print(f"[GỢI Ý] File có {len(rows)} cảnh (STT: {rows[0].get('stt','?')} - {rows[-1].get('stt','?')})")
     return shots
-
 
 def smooth_scroll_down(page, pixels=500):
     try:
-        # 1. Lăn con chuột phần cứng (Mouse Wheel) tạo hiệu ứng trượt quán tính mượt mà
         page.mouse.wheel(0, pixels)
-        # 2. Đồng thời kích hoạt hiệu ứng cuộn mượt (smooth scroll) trên các khung chat
         page.evaluate("""(px) => {
             const scrollers = document.querySelectorAll('infinite-scroller, .conversation-container, ms-chat-session, main, [role="main"]');
             scrollers.forEach(el => {
@@ -91,7 +63,6 @@ def smooth_scroll_down(page, pixels=500):
     except Exception:
         pass
 
-# Gán bí danh để tương thích toàn bộ code
 scroll_to_bottom = smooth_scroll_down
 
 def get_current_image_srcs(page):
@@ -135,7 +106,6 @@ def click_send_button(page):
                     pass
         if sent:
             break
-            
     if not sent:
         page.keyboard.press("Enter")
     time.sleep(2)
@@ -144,10 +114,7 @@ def attach_reference_sheet(page):
     if not os.path.exists(MODEL_SHEET_IMG):
         print(f"[!] Không tìm thấy file ảnh mẫu tại: {MODEL_SHEET_IMG}")
         return False
-        
     print(f"[*] Đang tiến hành nạp ảnh mẫu Grok: {MODEL_SHEET_IMG}")
-    
-    # 1. Thử nạp trực tiếp qua thẻ input file (cách chuẩn nhất của Playwright)
     try:
         page.set_input_files("input[type='file']", MODEL_SHEET_IMG)
         print("[OK] ĐÃ NẠP TRỰC TIẾP ẢNH MẪU GROK VÀO KHUNG CHAT!")
@@ -155,8 +122,6 @@ def attach_reference_sheet(page):
         return True
     except Exception as e1:
         print(f"    [!] Nạp trực tiếp input[type=file]: {e1}")
-
-    # 2. Thử bấm dấu '+' ở góc dưới bên trái khung chat
     try:
         plus_candidates = [
             "button:has(mat-icon:has-text('add'))",
@@ -184,7 +149,57 @@ def attach_reference_sheet(page):
                         break
     except Exception as e2:
         print(f"    [!] Nạp qua nút '+': {e2}")
+    return False
 
+def try_download_button(page, new_img, target_file):
+    """Click the Download button for the NEW image only."""
+    downloaded = False
+    try:
+        # Scroll to the new image
+        new_img.scroll_into_view_if_needed()
+        time.sleep(1)
+        
+        bbox = new_img.bounding_box()
+        if not bbox:
+            return False
+        
+        img_cx = bbox['x'] + bbox['width'] / 2
+        img_cy = bbox['y'] + bbox['height'] / 2
+        
+        # Hover over the new image to reveal download button
+        new_img.hover()
+        time.sleep(2)
+        
+        # Find download button by specific aria-label (fast)
+        download_btns = page.locator("button[aria-label*='Tải hình ảnh']").all()
+        
+        # Find the one closest to the new image
+        closest_btn = None
+        closest_dist = float('inf')
+        for b in download_btns:
+            if b.is_visible():
+                btn_bbox = b.bounding_box()
+                if btn_bbox:
+                    btn_cx = btn_bbox['x'] + btn_bbox['width'] / 2
+                    btn_cy = btn_bbox['y'] + btn_bbox['height'] / 2
+                    dist = ((btn_cx - img_cx)**2 + (btn_cy - img_cy)**2)**0.5
+                    if dist < closest_dist:
+                        closest_dist = dist
+                        closest_btn = b
+        
+        if closest_btn:
+            try:
+                with page.expect_download(timeout=15000) as download_info:
+                    closest_btn.click()
+                download = download_info.value
+                download.save_as(target_file)
+                if os.path.exists(target_file) and os.path.getsize(target_file) > 1000:
+                    print(f"    [OK] Tải qua nút Download thành công!")
+                    return True
+            except Exception as e:
+                print(f"    [!] Click failed: {e}")
+    except Exception as e:
+        print(f"    [!] Error: {e}")
     return False
 
 def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
@@ -212,9 +227,6 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
         print("[*] Đang vào Gemini... Trình duyệt sẽ mở 1 tab duy nhất!")
         time.sleep(5)
 
-        # -------------------------------------------------------------
-        # KHÓA NHÂN VẬT & GHI NHỚ THIẾT KẾ (TỰ ĐỘNG KHI GẶP ACC MỚI / CHAT MỚI)
-        # -------------------------------------------------------------
         existing_imgs = count_generated_images(page)
         if existing_imgs == 0:
             print("\n" + "=" * 60)
@@ -222,7 +234,6 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
             print("[*] TIẾN HÀNH NẠP ẢNH MẪU VÀ KHÓA NHÂN VẬT GROK...")
             print("=" * 60)
             
-            # 1. Nạp ảnh mẫu GROK_REFERENCE_SHEET.png
             attached = attach_reference_sheet(page)
             if not attached:
                 print("\n[LƯU Ý] Nếu ảnh chưa nạp được, bạn có thể kéo thả")
@@ -230,7 +241,6 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
                 print("        (Chờ 6 giây để bạn thả tay nếu muốn...)\n")
                 time.sleep(6)
 
-            # 2. Gửi lệnh GHI NHỚ THIẾT KẾ NHÂN VẬT
             try:
                 input_box = page.locator("div[contenteditable='true'], textarea, rich-textarea p").first
                 input_box.click()
@@ -245,8 +255,6 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
                 )
                 input_box.fill(memory_msg)
                 time.sleep(1)
-                
-                # BẤM NÚT GỬI MÀU XANH
                 print("[*] Đang bấm nút gửi lệnh ghi nhớ...")
                 click_send_button(page)
                 print("[OK] ĐÃ BẤM NÚT GỬI! Đang chờ 10s để Gemini nạp vào bộ nhớ...")
@@ -257,7 +265,6 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
             print(f"\n[*] PHÁT HIỆN PHIÊN CHAT HIỆN TẠI ĐÃ CÓ {existing_imgs} ẢNH!")
             print("[*] Gemini đã ghi nhớ nhân vật Grok từ trước, tiếp tục vẽ nối tiếp...")
 
-        # Tập hợp tất cả các URL ảnh đã tồn tại trước đó để KHÔNG BAO GIỜ tải lại ảnh cũ
         known_srcs = get_current_image_srcs(page)
         print(f"[*] Đã quét và ghi nhớ {len(known_srcs)} ảnh cũ trên trang. Bắt đầu vẽ cảnh mới...")
 
@@ -271,7 +278,6 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
             print(f"    Prompt: {prompt[:80]}...")
 
             try:
-                # 1. Tự động cuộn xuống đáy trước khi gõ
                 scroll_to_bottom(page)
                 time.sleep(1)
 
@@ -281,32 +287,25 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
                 input_box.fill(prompt)
                 time.sleep(1)
                 
-                # BẤM NÚT GỬI MÀU XANH
                 click_send_button(page)
                 print(f"    -> Đã bấm nút gửi Cảnh {stt}! Đang chờ Gemini vẽ bức ảnh MỚI...")
-                
-                # 2. Cuộn xuống đáy ngay sau khi gửi
+
                 time.sleep(2)
                 scroll_to_bottom(page)
 
                 downloaded = False
-                # Chờ tối đa 60 giây (30 lần x 2s) cho ảnh mới xuất hiện
                 for wait_step in range(30):
                     time.sleep(2)
-                    # Luôn tự động cuộn xuống đáy để ảnh hiển thị và không bị khuất
                     scroll_to_bottom(page)
                     
-                    # Quét toàn bộ ảnh hiện có trên trang
                     current_imgs = page.locator("img[src*='googleusercontent.com'], img[src*='blob:'], .image-container img").all()
                     
-                    # Tìm bức ảnh MỚI (chưa từng có trong known_srcs)
                     new_img = None
                     new_src = None
                     for img in reversed(current_imgs):
                         try:
                             src = img.get_attribute("src") or ""
                             if src and src not in known_srcs:
-                                # Kiểm tra xem ảnh đã tải xong kích thước thực chưa
                                 is_loaded = page.evaluate("(el) => el.complete && el.naturalWidth > 150", img.element_handle())
                                 if is_loaded:
                                     new_img = img
@@ -316,54 +315,14 @@ def run_continuous_generator(start_shot=1, end_shot=155, script_path=None):
                             pass
                             
                     if new_img and new_src:
-                        print(f"    [OK] Đã phát hiện ảnh MỚI Cảnh {stt}! Đang lưu file gốc...")
-                        try:
-                            # Cách 1: Tải trực tiếp bằng Python nếu là link HTTP (không bị chặn CSP)
-                            if new_src.startswith("http"):
-                                import urllib.request
-                                req = urllib.request.Request(new_src, headers={"User-Agent": "Mozilla/5.0"})
-                                with urllib.request.urlopen(req, timeout=15) as resp, open(target_file, "wb") as f:
-                                    f.write(resp.read())
-                                downloaded = True
-                            
-                            # Cách 2: Nếu là blob, trích xuất dữ liệu pixel qua Canvas (không dùng fetch)
-                            if not downloaded:
-                                import base64
-                                b64_str = page.evaluate("""(img) => {
-                                    try {
-                                        const canvas = document.createElement('canvas');
-                                        canvas.width = img.naturalWidth || img.clientWidth || 1280;
-                                        canvas.height = img.naturalHeight || img.clientHeight || 720;
-                                        const ctx = canvas.getContext('2d');
-                                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                                        return canvas.toDataURL('image/png').split(',')[1];
-                                    } catch(e) {
-                                        return null;
-                                    }
-                                }""", new_img.element_handle())
-                                if b64_str:
-                                    with open(target_file, "wb") as f:
-                                        f.write(base64.b64decode(b64_str))
-                                    downloaded = True
+                        print(f"    [OK] Đã phát hiện ảnh MỚI Cảnh {stt}! Đang tải qua nút Download...")
+                        # CHỈ dùng nút Download (tải ảnh gốc không watermark)
+                        downloaded = try_download_button(page, new_img, target_file)
+                        
+                        if not downloaded:
+                            print(f"    [!] Không tìm thấy nút Download cho ảnh mới. Bỏ qua cảnh {stt}.")
+                            downloaded = False
 
-                            # Cách 3: Chụp trực tiếp element ảnh từ Playwright (chắc chắn 100% thành công)
-                            if not downloaded:
-                                new_img.scroll_into_view_if_needed()
-                                time.sleep(0.5)
-                                new_img.screenshot(path=target_file)
-                                downloaded = True
-
-                        except Exception as e_dl:
-                            print(f"    [!] Lỗi lưu ảnh qua stream, chuyển sang chụp phần tử: {e_dl}")
-                            try:
-                                new_img.scroll_into_view_if_needed()
-                                time.sleep(0.5)
-                                new_img.screenshot(path=target_file)
-                                downloaded = True
-                            except Exception:
-                                pass
-
-                        # Kiểm tra file đã được lưu hợp lệ
                         if downloaded and os.path.exists(target_file) and os.path.getsize(target_file) > 1000:
                             known_srcs.add(new_src)
                             size_kb = os.path.getsize(target_file) // 1024
