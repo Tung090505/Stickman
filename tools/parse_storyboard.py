@@ -4,6 +4,7 @@ Parser bảng phân cảnh v5.2 cho dự án Stickman.
 Đọc file text chứa bảng markdown, trả về list dict theo tên cột.
 """
 import re
+import unicodedata
 from typing import List, Dict
 
 
@@ -21,6 +22,8 @@ def parse_storyboard(path: str) -> List[Dict]:
         "Thoi luong uoc tinh": "thoi_luong",
         "Loại cảnh, Góc máy & Chuyển động (CapCut)": "loai_canh",
         "Loai canh, Goc may & Chuyen dong (CapCut)": "loai_canh",
+        "Loại; Nhãn; Góc máy; Chuyển động": "loai_canh",
+        "Loai; Nhan; Goc may; Chuyen dong": "loai_canh",
         "Lời thoại thuần Việt (Đã phiên âm)": "loi_thoai",
         "Loi thoai thuan Viet (Da phien am)": "loi_thoai",
         "Text chèn CapCut": "text_capcut",
@@ -33,8 +36,8 @@ def parse_storyboard(path: str) -> List[Dict]:
         "Ten file SFX": "ten_sfx",
         "Từ neo SFX": "tu_neo",
         "Tu neo SFX": "tu_neo",
-        "Vị trí chèn SFX": "vi_tri_sfx",
-        "Vi tri chen SFX": "vi_tri_sfx",
+        "Vị trí SFX": "vi_tri_sfx",
+        "Vi tri SFX": "vi_tri_sfx",
     }
 
     # Thử nhiều encoding khác nhau để tránh lỗi UnicodeDecodeError
@@ -89,7 +92,31 @@ def parse_storyboard(path: str) -> List[Dict]:
                 row = {}
                 for i, col_name in enumerate(header):
                     if i < len(cells):
-                        key = COL_MAP.get(col_name, col_name.lower().replace(" ", "_"))
+                        # Fuzzy matching based on keywords
+                        col_lower = col_name.lower()
+                        col_norm = unicodedata.normalize('NFD', col_lower)
+                        col_norm = ''.join(c for c in col_norm if unicodedata.category(c) != 'Mn')
+                        col_norm = col_norm.replace(' ', '').replace(';', '').replace('(', '').replace(')', '').replace('_', '')
+                        if 'stt' in col_norm and len(col_norm) < 6:
+                            key = 'stt'
+                        elif 'thoi' in col_norm or 'luong' in col_norm:
+                            key = 'thoi_luong'
+                        elif 'loai' in col_norm or 'canh' in col_norm or 'goc' in col_norm or 'chuyen' in col_norm or 'nhan' in col_norm:
+                            key = 'loai_canh'
+                        elif 'loi' in col_norm or 'thoai' in col_norm:
+                            key = 'loi_thoai'
+                        elif 'text' in col_norm or 'capcut' in col_norm:
+                            key = 'text_capcut'
+                        elif 'prompt' in col_norm or 'anh' in col_norm:
+                            key = 'prompt_anh'
+                        elif 'sfx' in col_norm and 'ten' in col_norm:
+                            key = 'ten_sfx'
+                        elif 'neo' in col_norm:
+                            key = 'tu_neo'
+                        elif 'vitri' in col_norm or 'vitr' in col_norm:
+                            key = 'vi_tri_sfx'
+                        else:
+                            key = COL_MAP.get(col_name, col_name.lower().replace(' ', '_'))
                         if key == "stt":
                             row[key] = stt_clean
                         else:

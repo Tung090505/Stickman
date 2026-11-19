@@ -8,7 +8,7 @@ echo ========================================================
 echo.
 
 set "NODE=C:\Program Files\nodejs\node.exe"
-set "CLI=C:\File D\Stickman\gemini-watermark-remover\gemini-watermark-remover\bin\gwr.mjs"
+set "CLI=C:\File D\Stickman\gemini-watermark-remover\bin\gwr.mjs"
 set "SOURCE=C:\File D\Stickman\caveman-story\images"
 set "DEST=C:\File D\Stickman\caveman-story\images_clean"
 

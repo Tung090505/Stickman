@@ -96,11 +96,14 @@ for scene in scenes:
         else:
             delay_ms = int((scene['start'] + 0.3) * 1000)  # 0.3s after start
 
-        # Volume per SFX (Dramatic Boom needs to be louder)
+        # Volume per SFX (weather/ambient SFX quieter)
+        weather_sfx = ['Wind.mp3', 'Thunder.mp3', 'Crickets.mp3', 'Water Splash.mp3', 'Fire Crackle.mp3', 'Heartbeat.mp3']
         if sfx_file == 'Record Scratch.mp3':
             vol = 0.1
         elif sfx_file == 'Dramatic Boom.mp3':
             vol = 0.8
+        elif sfx_file in weather_sfx:
+            vol = 0.2  # Weather/ambient SFX quieter
         else:
             vol = 0.5
 

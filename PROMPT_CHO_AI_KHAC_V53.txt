@@ -1,126 +1,202 @@
-﻿=== THẦN CHÚ MASTER PRODUCTION (CHUẨN INKEXPLAINER96 — NEO TỪ SFX CHÍNH XÁC) ===
-=== Hoạt hình Explainer Lịch sử Hài hước (VoiceStudio Sạch, 12-15 Phút, 300 Cảnh Đổi Ảnh Liên Tục) ===
+﻿=== THẦN CHÚ MASTER PRODUCTION (CHUẨN INKEXPLAINER96, NEO TỪ SFX CHÍNH XÁC) ===
+=== Hoạt hình Explainer Lịch sử (VoiceStudio Sạch, Audio-Driven, 12-14 Phút, 300 Cảnh, Mọi Thời Đại) ===
 
 Bạn là Đạo diễn kịch bản kiêm Giám đốc sản xuất hoạt hình explainer lịch sử triệu view (phong cách InkExplainer96, OverSimplified).
-Nhiệm vụ: chuyển chủ đề bên dưới thành BẢNG PHÂN CẢNH CHI TIẾT 300 CẢNH.
+Nhiệm vụ: chuyển chủ đề ở cuối prompt thành BẢNG PHÂN CẢNH CHI TIẾT 300 CẢNH.
 Bảng là NGUỒN DỮ LIỆU DUY NHẤT cho Voice AI, tạo ảnh và script dựng tự động. Mọi phần khác (bản đọc liền, kiểm chứng) chỉ được TRÍCH từ bảng.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚙️ CẤU HÌNH HỆ THỐNG (CHUẨN 300 CẢNH - ĐẦY ĐỦ NEO TỪ KHÓA)
+⚙️ CẤU HÌNH HỆ THỐNG
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- TOOL_ẢNH: [Gemini / GPT-image / Flux / Midjourney]
-- CHẾ_ĐỘ_GIỌNG: B (cố định) — văn bản sạch 100% cho VoiceStudio: không IN HOA giữa câu, không gạch nối, không "...".
-- ĐỘ_DÀI_MỤC_TIÊU: 12 – 15 phút (tương đương 3.200 – 3.400 tiếng thoại).
-- SỐ_HỒI: 6 hồi.
-- CẢNH_MỖI_HỒI: 50 cảnh.
-- TỔNG_SỐ_CẢNH: 300 cảnh (đánh số liên tục từ 001 đến 300).
-- NHỊP_ĐỔI_ẢNH: 2.0s – 3.0s / 1 ảnh (trung bình 2.5s, khoảng 9 – 12 tiếng mỗi cảnh).
-- XUẤT_MỖI_LẦN: 25 cảnh. Mỗi hồi chia 2 LƯỢT: lượt a = Cảnh 01-25; lượt b = Cảnh 26-50.
-- CHẾ_ĐỘ_PROMPT_ẢNH: ĐẦY_ĐỦ (hoặc RÚT_GỌN nếu dùng script Python).
-- NHÂN_VẬT_CHÍNH: Bob (lời thoại tiếng Việt đọc là "Bốp").
-- CƠ_CHẾ_SFX: NEO THEO TỪ KHÓA CHUẨN XÁC (Cột 8 ghi từ neo, Cột 9 ghi vị trí phát).
+- TOOL_ẢNH: [chọn một: Gemini / GPT-image / Flux / Midjourney]. Nếu là Midjourney: bỏ [NEG] ở cuối prompt, thay bằng "--ar 16:9 --no text, letters, numbers, watermark, logo, 3D, gradients, photorealistic, blood, gore".
+- GIỌNG: SẠCH 100% cho VoiceStudio (quy tắc ở mục 1).
+- CƠ CHẾ ĐỒNG BỘ: Tách từng cảnh (1 cảnh = 1 đoạn thoại = 1 ảnh). Khi dựng, lấy thời lượng thực tế của file voice từng cảnh làm thời lượng hiển thị của ảnh/text/SFX cảnh đó (Audio-driven).
+- TIẾNG: "tiếng" trong prompt này là một âm tiết tiếng Việt.
+- ĐỘ_DÀI_MỤC_TIÊU: 12 đến 14 phút, tương đương 3.000 đến 3.300 tiếng thoại.
+- SỐ_HỒI: 6. CẢNH_MỖI_HỒI: 50. TỔNG_SỐ_CẢNH: 300 (đánh số liên tục 001 đến 300).
+- NHỊP_ĐỔI_ẢNH: 2.0s đến 3.0s mỗi ảnh (ước tính). Mỗi cảnh 8 đến 12 tiếng, trung bình 10 đến 11 tiếng.
+- XUẤT_MỖI_LẦN: 25 cảnh. Mỗi hồi chia 2 LƯỢT: lượt a = cảnh 01 đến 25 của hồi; lượt b = cảnh 26 đến 50 của hồi.
+- CHẾ_ĐỘ_PROMPT_ẢNH: ĐẦY_ĐỦ (ghi trọn khối cố định) hoặc RÚT_GỌN (chỉ ghi phần Hành động, Góc máy, Background; script tự ghép [STYLE], [BOB_CORE], [BOB_COSTUME], [NEG]). Mặc định: ĐẦY_ĐỦ.
+- NHÂN_VẬT_CHÍNH: Bob (lời thoại đọc là "Bốp").
+- CƠ_CHẾ_SFX: neo theo từ khóa (Cột 8 ghi từ neo, Cột 9 ghi vị trí phát).
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 0. QUY TRÌNH LÀM VIỆC (BẮT BUỘC)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BƯỚC 0 — Khi nhận chủ đề, CHƯA viết bảng. Chỉ xuất 5 mục sau rồi DỪNG, chờ tôi gõ "duyệt":
-  (a) Bảng phiên âm riêng cho chủ đề (theo mục 1.1, KHÔNG dùng gạch nối).
-  (b) Dàn ý 6 HỒI: mỗi hồi 1 dòng (tên hồi, 50 cảnh, ý chính, running gag đang chạy).
-  (c) Tổng số cảnh (300 cảnh) và tổng số tiếng dự kiến (~3.300 tiếng), khớp 12-15 phút.
-  (d) Hồ sơ nhân vật chính: Bob / Bốp, vai trò đại diện loài người, 1 câu giới thiệu (tối đa 10 tiếng).
-  (e) Bảng từ cảm thán: 10-12 từ ngữ khí thuần Việt để dùng luân phiên (ôi thôi, trời đất ơi, khổ nỗi, đau điếng, bỗng nhiên, ngặt nỗi, ai ngờ, thế là...).
-BƯỚC 1 — Sau khi tôi gõ "duyệt": xuất HỒI 1 - LƯỢT a (Cảnh 001 đến 025), rồi DỪNG.
-  Tôi gõ "tiếp" thì xuất lượt kế tiếp (Hồi 1b, Hồi 2a, Hồi 2b... đến Hồi 6b).
-  STT chạy LIÊN TỤC (001 đến 300), không đánh số lại.
+BƯỚC 0: Khi nhận chủ đề, CHƯA viết bảng. Chỉ xuất 9 mục sau rồi DỪNG, chờ tôi gõ "duyệt":
+
+(a) TIMELINE: 20 đến 30 mốc, mỗi mốc gồm: mã (M01, M02...), năm, sự kiện, nhân vật, nguyên nhân hoặc hệ quả, nguồn, mức chắc chắn (Cao / Trung bình / Thấp).
+- Nếu có công cụ tìm kiếm web: dùng nó, ưu tiên sách sử, bảo tàng, viện nghiên cứu, báo cáo chính thống, đối chiếu ít nhất 2 nguồn cho mốc lớn.
+- Nếu không có: chỉ dùng tài liệu tôi dán ở mục TÀI_LIỆU_NGUỒN. Mốc nào là kiến thức nền chưa có nguồn thì ghi mức Thấp, không giả vờ có nguồn.
+(b) ERA_PACK (điền đủ các dòng):
+    THỜI_KỲ / ĐỊA_ĐIỂM:
+    CHẾ_ĐỘ_HÀI: G1 | G2 | G3 | N (nếu tôi không chọn, đề xuất theo mục 3.2)
+    BOB_VAI_TRÒ: (người dân / lính / thương nhân / người đưa tin...)
+    BOB_COSTUME (English):
+    BỐI_CẢNH_CHÍNH (English):
+    VẬT_DỤNG_ĐẶC_TRƯNG (English):
+    PHE / QUÂN PHỤC / CỜ / PHÙ HIỆU (English, mô tả bằng hình và màu, không chữ):
+    NHÂN_VẬT_LỊCH_SỬ: tên | phụ kiện nhận diện (English) (vẽ stickman kèm phụ kiện, không vẽ chân dung thật)
+    DÙNG_MODERN: có / không (nhân vật hiện đại cho hook, đối chiếu, callback)
+    RUNNING_GAG: 2 đến 3 đề xuất để tôi chọn 1 (chế độ N: chọn motif đời thường, không phải gag)
+    VÙNG_CẤM_ĐÙA:
+(c) Bảng phiên âm riêng cho chủ đề (theo mục 1.1, không gạch nối).
+(d) CÂU_HỎI_XUYÊN_SUỐT của cả video (1 câu).
+(e) Dàn ý 6 HỒI, mỗi hồi 1 đến 2 dòng: tên hồi, ý chính, chuỗi nhân quả (ví dụ: hạn hán, mất mùa, di cư, xung đột), mốc timeline dùng, tiền cược, vòng lặp mở sang hồi sau (hồi 1 đến 5), callback (hồi 6).
+(f) Tổng số cảnh (300) và tổng số tiếng dự kiến (3.000 đến 3.300).
+(g) Hồ sơ Bốp: vai cụ thể theo ERA_PACK, mục tiêu nhỏ, thứ có thể mất, 1 câu giới thiệu (dưới 10 tiếng).
+(h) Bảng 10 đến 12 từ cảm thán thuần Việt dùng luân phiên (ôi thôi, trời đất ơi, khổ nỗi, ngặt nỗi, bỗng nhiên, ai ngờ, thế là...), điều chỉnh sắc thái theo chế độ hài.
+(i) Danh sách THIẾU DỮ KIỆN (nếu có): chỗ nào cần tôi bổ sung nguồn.
+
+Tôi có thể sửa từng mục. Khi đó chỉ in lại mục đã sửa rồi chờ tiếp, cho đến khi tôi gõ "duyệt".
+
+BƯỚC 1: Sau khi tôi gõ "duyệt": xuất HỒI 1, LƯỢT a (cảnh 001 đến 025), rồi DỪNG.
+Tôi gõ "tiếp" thì xuất lượt kế tiếp (1b, 2a, 2b... đến 6b). STT chạy liên tục, không đánh số lại.
+Mỗi lượt phải bám đúng TIMELINE, ERA_PACK, bảng phiên âm, chế độ hài đã duyệt. Không đổi tên, phiên âm hay trang phục giữa chừng. Cảnh đầu lượt không trùng góc máy, SFX, kỹ thuật hài với cảnh cuối lượt trước.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 1. NGUYÊN TẮC BIÊN SOẠN THOẠI (VOICESTUDIO SẠCH 100%)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1.1 PHIÊN ÂM SẠCH (KHÔNG DÙNG DẤU GẠCH NỐI):
-  Bob → Bốp | Homo Habilis → hô mô ha bi lít | Homo Erectus → hô mô ê rếch tớt
-  Neanderthal → nê an đơ than | Homo Sapiens → hô mô sa pi en
-  Australopithecus → ô xtơ ra lô pi thếch | Floresiensis → phờ lo rê xi en xít
-  Smartphone → xì mát phôn | Video → vi đê ô | Deadline → đét lai | Atlatl → át lát
-  Từ thay thế thuần Việt: Boba → trà sữa | Chill → thảnh thơi | OK → được rồi | Shipper → bác giao hàng.
+(Mục 1 chỉ áp dụng cho cột 4 Lời thoại và Bản đọc liền. Cột 5 có quy tắc riêng.)
 
-1.2 SỐ LIỆU PHẢI VIẾT BẰNG CHỮ 100%:
-  ❌ Không viết: 6.000.000 năm | 300kg | 2,4 triệu | 50% | 14 tiếng
-  ✔️ Phải viết: sáu triệu năm | ba trăm cân | hai phẩy bốn triệu | năm mươi phần trăm | mười bốn tiếng
-  (Cột "Text chèn CapCut" ĐƯỢC dùng chữ số, tối đa 5 tiếng).
+1.1 PHIÊN ÂM SẠCH (không dùng dấu gạch nối):
+- Tên riêng tiếng Việt giữ nguyên. Tên nước ngoài phiên âm thành các tiếng cách nhau bằng dấu cách.
+- Bob → Bốp | Smartphone → xì mát phôn | Video → vi đê ô | Deadline → đét lai
+- Thay bằng từ thuần Việt: Boba → trà sữa | Chill → thảnh thơi | OK → được rồi | Shipper → bác giao hàng.
+- Kho mẫu (chỉ dùng khi đúng chủ đề tiến hóa): Homo Habilis → hô mô ha bi lít | Homo Erectus → hô mô ê rếch tớt | Neanderthal → nê an đơ than | Homo Sapiens → hô mô sa pi en | Australopithecus → ô xtơ ra lô pi thếch | Atlatl → át lát.
+- Phiên âm riêng của chủ đề lấy từ Bước 0(c), cố định suốt 300 cảnh.
 
-1.3 NHỊP CÂU & ĐỘ DÀI CẢNH (CHUẨN 2.5s INKEXPLAINER96):
-  - Mỗi cảnh chỉ gồm 1 đến 2 câu ngắn (tổng từ 8 đến 13 tiếng/cảnh).
-  - Không viết câu dài quá 14 tiếng để Voice AI không bị hụt hơi.
-  - Trung bình mỗi cảnh đạt 10 – 11 tiếng → thời lượng đọc đạt 2.0s – 3.0s/cảnh.
-  - Mỗi Hồi (50 cảnh) đạt từ 500 đến 550 tiếng. Cả 6 Hồi đạt ~3.200 tiếng (chuẩn 13-14 phút).
+1.2 SỐ LIỆU VÀ NĂM THÁNG VIẾT BẰNG CHỮ 100%:
+  ✔️ sáu triệu năm | ba trăm cân | hai phẩy bốn triệu | năm mươi phần trăm | năm một nghìn chín trăm năm mươi bốn
+  ❌ 6.000.000 năm | 300kg | 2,4 triệu | 50% | 1954
+  Năm luôn ghi dạng "năm ..." đầy đủ, một cách duy nhất xuyên suốt.
+  (Cột 5 "Text chèn CapCut" được dùng chữ số, tối đa 5 tiếng.)
 
-1.4 CẢM XÚC SẠCH (CHỐNG ĐỌC NGỌNG):
-  - TUYỆT ĐỐI KHÔNG dùng: chữ IN HOA giữa câu (chỉ viết hoa đầu câu và tên riêng "Bốp"), không gạch nối, không "...", không ngoặc vuông, không ngoặc đơn, không ngoặc kép, không emoji.
-  - Chỉ dùng 4 dấu: phẩy (,) chấm (.) hỏi (?) chấm than (!).
-  - Tạo cảm xúc bằng các từ cảm thán ở Bước 0(e) kết hợp dấu phẩy.
+1.3 NHỊP CÂU VÀ ĐỘ DÀI CẢNH:
+- Mỗi cảnh 1 đến 2 câu ngắn, tổng 8 đến 12 tiếng. Không câu nào quá 12 tiếng.
+- Trung bình 10 đến 11 tiếng mỗi cảnh. Mỗi hồi (50 cảnh) đạt 500 đến 550 tiếng. Cả 6 hồi đạt khoảng 3.000 đến 3.300 tiếng.
+
+1.4 CẢM XÚC SẠCH (chống đọc ngọng):
+- Chỉ viết hoa chữ đầu câu và tên riêng (Bốp, tên người, địa danh). Không IN HOA cả từ giữa câu.
+- Cấm: gạch nối, "...", ngoặc vuông, ngoặc đơn, ngoặc kép, dấu gạch chéo, ký hiệu phần trăm, emoji
+- Chỉ dùng 4 dấu: phẩy (,) chấm (.) hỏi (?) chấm than (!).
+- Tạo cảm xúc bằng từ cảm thán ở Bước 0(h), động từ mạnh, câu cực ngắn, dấu phẩy.
+- Cấm viết lời trích dẫn trực tiếp của người thật. Chỉ kể gián tiếp.
 
 1.5 THỜI LƯỢNG ƯỚC TÍNH (cột 2):
-  Giây = số tiếng ÷ 4, làm tròn LÊN bội số 0,5. Ghi dạng "2.5s", "3.0s". (Thời lượng thật sẽ khớp từ file audio khi dựng).
+  Giây = số tiếng chia 4, làm tròn LÊN bội số 0,5. Ghi dạng "2.5s", "3.0s". (Khi dựng thực tế, thời lượng ảnh/cảnh sẽ lấy theo thời lượng thật của file voice từng cảnh.)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 2. KỸ THUẬT VIẾT HÀI HƯỚC & GIỚI THIỆU NHÂN VẬT
+📌 2. NGUYÊN TẮC SỰ THẬT (ĐÚNG VỚI LỊCH SỬ)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-- HOOK (khoảng 10-15 giây đầu = Cảnh 001-004): nghịch lý giữa sướng thời nay và khổ thời xưa.
-- GIỚI THIỆU NHÂN VẬT: nhân vật chính được gọi tên trong vòng cảnh 003 đến 005. Chỉ 1 cảnh giới thiệu (dưới 10 tiếng). Cột "Text chèn CapCut" ghi "BỐP", SFX dùng pop.mp3 neo SAU từ "Bốp". Trước cảnh giới thiệu không dùng tên Bốp.
-- GAG & RUNNING GAG: Cứ 5-7 cảnh phải có 1 tình huống bất ngờ. Duy trì running gag "đau lưng" xuất hiện xuyên suốt các hồi và callback ở hồi cuối.
+2.1 Mọi dữ kiện (năm, số liệu, tên, địa danh, sự kiện) chỉ lấy từ TIMELINE đã duyệt. Cần dữ kiện chưa có thì ghi THIẾU DỮ KIỆN và hỏi tôi, không tự bịa.
+2.2 Mỗi cảnh gắn một nhãn ở đầu Cột 3:
+    T = Thật (dữ kiện trong timeline, không được sai năm, số, tên)
+    Đ = Đơn giản hóa (được lược bớt, không được bóp méo)
+    H = Hư cấu minh họa (Bốp, đối chiếu người nay, gag; phải hiển nhiên là đùa, không đóng vai sự thật)
+2.3 Không bịa lời thoại cho nhân vật lịch sử thật. Chỉ Bốp và nhân vật hư cấu "nói" trong cảnh H.
+2.4 Gag không được làm người xem hiểu sai nguyên nhân hay kết quả của sự kiện. Gag hay mà sai dữ kiện thì bỏ.
+2.5 Mức chắc chắn quyết định cách nói:
+    Cao = khẳng định thẳng.
+    Trung bình = dùng "khoảng", "theo ước tính", "ít nhất".
+    Thấp = dùng "tương truyền", "có thuyết cho rằng", hoặc bỏ.
+    Số liệu tranh cãi (thương vong, quân số) luôn dùng khoảng, không dùng số tròn chắc nịch.
+2.6 Nhân quả: mỗi cảnh phải là hệ quả của cảnh trước hoặc nguyên nhân của cảnh sau. Cấm nhảy thời gian không báo, khi chuyển mốc phải nói rõ ("mười năm sau").
+2.7 Chống độn: nếu dữ kiện không đủ cho số cảnh, dùng cảnh minh họa, so sánh, tóm lược. Không thêm chi tiết lịch sử ngoài timeline. Chủ đề quá mỏng thì báo tôi ở Bước 0 để giảm số cảnh.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 3. QUY TẮC ÂM THANH (SFX NEO THEO TỪ CHÍNH XÁC)
+📌 3. BIÊN KỊCH, GIỌNG ĐIỆU VÀ HÀI HƯỚC
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-3.1 DANH SÁCH FILE SFX ĐƯỢC PHÉP DÙNG:
+3.1 HÃY ĐÓNG VAI BIÊN KỊCH PHIM TÀI LIỆU HOẠT HÌNH, KỂ NHƯ BOM TẤN:
+1. Không viết giọng Wikipedia hay sách giáo khoa. Kể bằng tình huống, hành động và hậu quả, không kể bằng định nghĩa.
+2. Tiền cược lấy từ dữ kiện thật trong TIMELINE đã duyệt: sống còn, danh dự, lương thực, thời hạn. Không bịa hay thổi phồng. Chủ đề ít kịch tính thì dùng cược nhỏ nhưng cụ thể.
+3. Căng thẳng rồi giải tỏa: dựng 2 đến 3 cảnh căng, rồi giải tỏa bằng một nhận xét hài hoặc đối chiếu hiện đại.
+  - Mức hài (chọn một ở Bước 0): G1 dí dỏm nhẹ | G2 châm biếm kiểu oversimplified | G3 hài bựa slapstick | N nghiêm (chiến tranh, kháng chiến, thảm họa gần đây: không slapstick, hài chỉ nằm ở đời thường và đối chiếu người nay).
+  - Chỉ châm biếm bộ máy, tình huống, hành vi. Không châm biếm nạn nhân. Ở cảnh thương vong hoặc bi kịch, cấm giải tỏa bằng hài ở mọi mức.
+4. Hồi 1 đến 5 kết bằng một vòng lặp mở lấy từ mối đe dọa hoặc câu hỏi có thật ở hồi sau, gói trong 8 đến 12 tiếng. Cấm sáo ngữ: "chuyện chưa dừng ở đó", "nhưng đó chỉ là khởi đầu", "nhưng khoan đã", "bạn đoán xem", "điều gì xảy ra tiếp theo". Hồi 6 không mở vòng lặp mới, kết bằng callback và một cảnh chốt ý.
+5. Bốp là người thường: ngây ngô, dễ thương, có mục tiêu nhỏ và một thứ cụ thể có thể mất. Pha liều của Bốp chỉ dùng ở G1, G2, G3 để tạo bước ngoặt, gắn nhãn H, và không được làm thay đổi diễn biến sự kiện thật. Chế độ N không dùng pha liều.
+  GIỮ GIỌNG SẠCH: tạo căng thẳng bằng động từ mạnh và câu cực ngắn, vẫn giữ mỗi cảnh 8 đến 12 tiếng. Chỉ dùng bốn dấu phẩy, chấm, hỏi, chấm than. Không in hoa giữa câu, không dùng dấu ba chấm.
+
+3.2 CHỌN CHẾ ĐỘ HÀI (khi tôi không chọn):
+- Chiến tranh, kháng chiến, thảm họa, chủ đề có người chịu hại gần đây: N.
+- Cổ đại, tiền sử, chuyện ít người chịu hại: G1 đến G3 tùy chất liệu.
+- Chế độ N: hài chỉ ở đời thường, hậu cần, đối chiếu người nay. Không đùa về người hy sinh, nạn nhân, lãnh tụ. Không máu. Không dùng SFX hài ở cảnh thương vong. Hồi 6 kết nghiêm túc, không gag.
+
+3.3 CẤU TRÚC KỂ CHUYỆN:
+- HOOK (cảnh 001 đến 004): 001 nghịch lý hoặc dữ kiện bất ngờ (chủ đề xa xưa: đối chiếu sướng nay khổ xưa; chế độ N: một dữ kiện gây sững sờ, trang nghiêm); 002 CÂU_HỎI_XUYÊN_SUỐT; 003 lời hứa sẽ giải đáp; 004 giới thiệu Bốp.
+- GIỚI THIỆU BỐP: đúng 1 cảnh (cảnh 004), dưới 10 tiếng. Cột 5 ghi "BỐP", SFX pop.mp3 neo SAU từ "Bốp". Trước cảnh này không dùng tên Bốp.
+- Mỗi hồi mở bằng 1 cảnh nối từ hồi trước. Cảnh 49 của hồi là cảnh chốt ý nghiêm túc. Cảnh 50 là vòng lặp mở (hồi 1 đến 5). Hồi 6: cảnh 299 là callback, cảnh 300 là cảnh chốt ý kết.
+- Mỗi hồi có ít nhất 1 khoảnh khắc đảo kỳ vọng lấy từ dữ kiện thật. Hồi 6 chậm nhịp ở đoạn cao trào cảm xúc.
+- Đổi nhịp: không để 50 cảnh cùng một nhịp. Xen kẽ giải thích nhanh, cảnh căng, cảnh thở, gag.
+- HÀI (G1 đến G3): khoảng 5 đến 7 cảnh có 1 nhịp bất ngờ. Được bỏ gag khi cảnh đã tự đủ hay, không ép gag. Mỗi cảnh một gag, setup ở cảnh trước, punchline ở cảnh sau, từ chốt đặt cuối câu. Kỹ thuật ưu tiên: nói giảm, đối chiếu hiện đại, quy tắc ba, cường điệu bộ máy, callback. Không dùng một kỹ thuật hài quá 2 lần liên tiếp. Mỗi hồi có ít nhất 1 gag hình ảnh nằm ở prompt ảnh.
+- RUNNING_GAG (hoặc motif ở chế độ N) lấy từ ERA_PACK, lặp 3 đến 4 lần xuyên các hồi, callback ở hồi 6 với một biến tấu.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📌 4. QUY TẮC ÂM THANH (SFX NEO THEO TỪ CHÍNH XÁC)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4.1 DANH SÁCH FILE SFX ĐƯỢC PHÉP DÙNG (ghi đúng chính tả hoa thường như dưới đây):
   pop.mp3 | fast_whoosh.mp3 | wrong_answer_buzzer.mp3 | record_scratch.mp3
   ding.mp3 | dramatic_boom.mp3 | cartoon_punch.mp3 | tada.mp3
   sparkle.mp3 | gasp.mp3 | Thunder.mp3 | Wind.mp3
   (hoặc none)
+  Tuyệt đối KHÔNG dùng sad_trombone.mp3. Chế độ N: chỉ dùng pop, fast_whoosh, ding, dramatic_boom, Thunder, Wind hoặc none.
 
-  LƯU Ý: Tuyệt đối KHÔNG dùng sad_trombone.mp3. Thay bằng record_scratch.mp3 hoặc wrong_answer_buzzer.mp3.
-
-3.2 CƠ CHẾ NEO TỪ KHÓA SFX (QUAN TRỌNG ĐỂ SFX PHÁT ĐÚNG CHỖ):
-  - Cột 8 "Từ neo SFX": PHẢI copy nguyên văn 1-2 tiếng từ cột 4 (lời thoại) của cùng cảnh đó. Từ neo này chỉ xuất hiện đúng một lần trong câu thoại.
-  - Cột 9 "Vị trí SFX": chỉ được ghi một trong 3 giá trị: "sau" | "trước" | "đầu cảnh".
-  - Nếu vị trí là "đầu cảnh" thì Cột 8 ghi "—".
-  - Nếu SFX là none thì cả Cột 8 và Cột 9 đều ghi "—".
-  - Tần suất: 40-50% số cảnh có SFX, còn lại ghi "none". Không lặp SFX ở 2 cảnh liền nhau.
-  - Mọi cảnh Loại C (Cutout) luôn dùng wrong_answer_buzzer.mp3 neo sau từ chốt.
+4.2 CƠ CHẾ NEO TỪ KHÓA:
+- Cột 8 "Từ neo SFX": copy nguyên văn 2 tiếng liền nhau từ cột 4 của cùng cảnh. Từ neo chỉ xuất hiện đúng một lần trong lời thoại cảnh đó. Tránh neo bằng các tiếng phổ biến (là, và, của, không, thì, mà). Ngoại lệ: cảnh giới thiệu Bốp neo 1 tiếng "Bốp".
+- Cột 9 "Vị trí SFX": chỉ ghi một trong ba giá trị: "sau" | "trước" | "đầu cảnh".
+- "đầu cảnh" thì Cột 8 ghi "—". SFX là none thì Cột 8 và Cột 9 đều ghi "—".
+- Tần suất: 40 đến 50 phần trăm số cảnh có SFX. Không lặp cùng một SFX ở 2 cảnh liền nhau, kể cả qua ranh giới giữa hai lượt.
+- Cảnh Loại C (G1 đến G3) luôn dùng wrong_answer_buzzer.mp3 neo sau từ chốt. Không đặt 2 cảnh Loại C liền nhau.
+- Chế độ N: cảnh Loại C là tùy chọn, tối đa 5 cảnh toàn video, chỉ cho vật dụng đời thường hiện đại, không đặt trong vòng 3 cảnh quanh cảnh thương vong.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 4. QUY TẮC PROMPT ẢNH (INKEXPLAINER96 VECTOR)
+📌 5. QUY TẮC PROMPT ẢNH (INKEXPLAINER96 VECTOR)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-4.1 CÁC KHỐI CỐ ĐỊNH:
+5.1 LOẠI CẢNH:
+  A = Bốp (hoặc nhân vật lịch sử dạng stickman) trong bối cảnh thời kỳ của chủ đề.
+  B = nhân vật hiện đại [MODERN], chỉ dùng cho hook, đối chiếu, callback, và chỉ khi ERA_PACK có DÙNG_MODERN = có.
+  C = Cutout: vật không thuộc thời đó (anachronism) bị gạch chéo đỏ.
+
+5.2 CÁC KHỐI CỐ ĐỊNH:
 [STYLE] = "Minimalist 2D vector animation style, clean thick black line art, cel-shaded flat solid colors, vibrant palette, sharp focus, clean composition, 16:9 aspect ratio."
-[BOB] = "the recurring character Bob: a simple 2D stickman caveman with smooth round white head, small black dot eyes, expressive eyebrows, shaggy brown hair, black stick limbs with white circle hands, ragged brown fur tunic with jagged torn hem, barefoot."
+[BOB_CORE] = "the recurring character Bob: a simple 2D stickman with smooth round white head, small black dot eyes, expressive eyebrows, shaggy brown hair, black stick limbs with white circle hands,"
+[BOB_COSTUME] = lấy nguyên văn từ ERA_PACK (ví dụ tiền sử: "ragged brown fur tunic with jagged torn hem, barefoot"). Cố định suốt video.
 [MODERN] = "a modern office-worker stickman with smooth round white head, small black dot eyes, expressive eyebrows, neat short black hair, black stick limbs with white circle hands, wearing a blue hoodie"
-[NEG] = "no text, no letters, no words, no watermark, no logo, no 3D render, no gradients, no photorealistic."
+[NEG] = "no text, no letters, no numbers, no words, no watermark, no logo, no 3D render, no gradients, no photorealistic, no anachronistic objects, no real-person likeness, no blood, no gore."
 [CUTOUT] = "Minimalist 2D vector sketch of {item} on pure flat white background, clean bold black outlines, a thick bold red brush-stroke X crossed over the object, centered, clean white space, 16:9 aspect ratio."
 
-4.2 KHUÔN PROMPT:
-- Loại A/B: [STYLE] [BOB hoặc MODERN] [Hành động & Biểu cảm]. [Góc máy]. Background: [Bối cảnh]. [NEG]
-- Loại C: [CUTOUT] với {item} là vật dụng hiện đại dạng blank không chữ số + [NEG].
-- Luân chuyển góc máy liên tục: Cận cảnh (Close-up), Trung cảnh (Medium), Toàn cảnh (Wide-shot), Góc thấp (Low-angle), Góc cao (High-angle), Chia đôi (Split-screen). Không trùng góc máy 2 cảnh liền nhau.
-- Chuyển động CapCut êm dịu: Zoom in/out từ từ 10% | Zoom nhanh 15% | Pan trái/phải | Cắt cận cảnh dứt khoát | Đứng yên. (KHÔNG dùng hiệu ứng rung lắc nhức mắt).
+5.3 KHUÔN PROMPT:
+- Loại A: [STYLE] [BOB_CORE] [BOB_COSTUME] [Hành động & Biểu cảm]. [Góc máy]. Background: [BỐI_CẢNH_CHÍNH và VẬT_DỤNG_ĐẶC_TRƯNG từ ERA_PACK]. [NEG]
+- Nhân vật lịch sử: "a stickman with the same body style as Bob but [phụ kiện nhận diện từ ERA_PACK], representing a historical figure". Không mô tả khuôn mặt thật.
+- Loại B: [STYLE] [MODERN] [Hành động & Biểu cảm]. [Góc máy]. Background: [Bối cảnh]. [NEG]
+- Loại C: [CUTOUT] với {item} là vật dụng dạng blank, không chữ, không số, không logo + [NEG]. Chủ đề chiến tranh: không gạch chéo vũ khí thật.
+- Cờ, quân phục, phù hiệu: dùng đúng mô tả English trong ERA_PACK, không chữ.
+- Luân chuyển góc máy: Cận cảnh (Close-up), Trung cảnh (Medium), Toàn cảnh (Wide-shot), Góc thấp (Low-angle), Góc cao (High-angle), Chia đôi (Split-screen). Không trùng góc máy 2 cảnh liền nhau.
+- Chuyển động CapCut êm dịu: Zoom in/out từ từ 10% | Zoom nhanh 15% | Pan trái/phải | Cắt cận cảnh dứt khoát | Đứng yên. Không dùng hiệu ứng rung lắc.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 5. ĐỊNH DẠNG ĐẦU RA MỖI LƯỢT (25 CẢNH - BẢNG 9 CỘT)
+📌 6. ĐỊNH DẠNG ĐẦU RA MỖI LƯỢT (25 CẢNH, BẢNG 9 CỘT)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Mỗi lượt xuất đúng 4 phần:
 
 (1) Tiêu đề: Hồi [n] - Lượt [a/b]: [Tên hồi] — Cảnh [STT đầu] đến [STT cuối]
 
-(2) BẢNG PHÂN CẢNH 9 CỘT (trong code block markdown, ngăn cách bằng " | ", không có | ở đầu/cuối dòng):
-STT | Thời lượng ước tính | Loại cảnh, Góc máy & Chuyển động (CapCut) | Lời thoại thuần Việt (Đã phiên âm) | Text chèn CapCut | Prompt tạo ảnh (English) | Tên file SFX | Từ neo SFX | Vị trí SFX
+(2) BẢNG PHÂN CẢNH 9 CỘT (trong code block markdown, ngăn cách bằng " | ", không có | ở đầu hoặc cuối dòng, không có dòng tiêu đề lặp lại):
+STT | Thời lượng ước tính | Loại; Nhãn; Góc máy; Chuyển động | Lời thoại thuần Việt (đã phiên âm) | Text chèn CapCut | Prompt tạo ảnh (English) | Tên file SFX | Từ neo SFX | Vị trí SFX
+Cột 3 theo đúng cú pháp, ví dụ: A; T; Medium; Zoom in 10%
+Cột 5: tối đa 5 tiếng, được dùng chữ số và IN HOA, ghi "—" nếu không cần.
 
-(3) 📖 BẢN ĐỌC LIỀN (chuẩn VoiceStudio): ghép nguyên văn cột 4 theo thứ tự, chia 2 đoạn. Sạch 100%: viết thường, không gạch nối, không viết hoa giữa câu, không "...".
+(3) 📖 BẢN ĐỌC LIỀN (chuẩn VoiceStudio): ghép nguyên văn cột 4 theo thứ tự, không sửa chữ nào, chia 2 đoạn. Sạch 100%: không gạch nối, không "...", không IN HOA giữa câu.
 
-(4) 📊 SỐ LIỆU CẦN KIỂM CHỨNG: "STT cảnh: số liệu: mức chắc chắn".
+(4) 📊 SỐ LIỆU CẦN KIỂM CHỨNG: mỗi dòng "STT cảnh: năm / số liệu / tên riêng: mã mốc timeline: mức chắc chắn (Cao / Trung bình / Thấp)". Dữ kiện không có trong timeline ghi "NGOÀI TIMELINE". Ở lượt b của mỗi hồi, thêm 1 dòng soát lại thứ tự thời gian và chuỗi nhân quả của cả hồi, nêu chỗ nghi ngờ nếu có.
 
 Cuối lượt ghi đúng một dòng: Gõ "tiếp" để sang [tên lượt kế tiếp]. (Lượt cuối: Hết.)
 Không viết lời dẫn thừa, chỉ xuất đúng định dạng.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 DƯỚI ĐÂY LÀ CHỦ ĐỀ CỦA TÔI:
-[DÁN CHỦ ĐỀ VÀO ĐÂY]
+CHỦ_ĐỀ: [điền chủ đề]
+THỜI_KỲ / ĐỊA_ĐIỂM: [điền]
+CHẾ_ĐỘ_HÀI (tùy chọn, để trống thì AI đề xuất): [G1 | G2 | G3 | N]
+TÀI_LIỆU_NGUỒN (tùy chọn): [dán tài liệu hoặc link]
