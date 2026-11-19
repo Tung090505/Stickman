@@ -1,4 +1,4 @@
-﻿# 🎬 Stickman – Tool Tự Động Tạo Video Hoạt Hình Stickman (Caveman Explainer)
+# 🎬 Stickman – Tool Tự Động Tạo Video Hoạt Hình Stickman (Caveman Explainer)
 
 ## 📋 Tổng Quan
 
