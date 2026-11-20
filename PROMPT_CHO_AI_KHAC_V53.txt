@@ -173,6 +173,7 @@ Mỗi lượt phải bám đúng TIMELINE, ERA_PACK, bảng phiên âm, chế đ
 - Cờ, quân phục, phù hiệu: dùng đúng mô tả English trong ERA_PACK, không chữ.
 - Luân chuyển góc máy: Cận cảnh (Close-up), Trung cảnh (Medium), Toàn cảnh (Wide-shot), Góc thấp (Low-angle), Góc cao (High-angle), Chia đôi (Split-screen). Không trùng góc máy 2 cảnh liền nhau.
 - Chuyển động CapCut êm dịu: Zoom in/out từ từ 10% | Zoom nhanh 15% | Pan trái/phải | Cắt cận cảnh dứt khoát | Đứng yên. Không dùng hiệu ứng rung lắc.
+- Bố cục chừa khoảng trống chữ: Ở các cảnh có Cột 5 "Text chèn CapCut" (đặc biệt là tên khoa học, mốc năm), thêm cụm "character positioned in the lower half of the frame, leaving clean open space at the top" vào prompt ảnh để chừa vùng trống 1/3 phía trên màn hình đặt chữ.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 6. ĐỊNH DẠNG ĐẦU RA MỖI LƯỢT (25 CẢNH, BẢNG 9 CỘT)
